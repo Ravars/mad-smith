@@ -13,20 +13,21 @@ namespace MadSmith.Scripts.BaseClasses
         {
             characterController = GetComponent<CharacterController>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
+            characterController.enabled = false;
         }
 
         protected virtual void Update()
         {
-            if (isLocalPlayer) // Test if this is right or should I use IsOwned   
+            if (isOwned) // Test if this is right or should I use IsOwned   
             {
                 characterNetworkManager.networkPosition = transform.position;
             }
             else
             {
                 transform.position = Vector3.SmoothDamp(
-                    transform.position, 
+                    transform.position,
                     characterNetworkManager.networkPosition,
-                    ref characterNetworkManager.networkPositionVelocity, 
+                    ref characterNetworkManager.networkPositionVelocity,
                     characterNetworkManager.networkPositionSmoothTime);
             }
         }

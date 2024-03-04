@@ -1391,6 +1391,45 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "CouchJoin",
+            "id": "9a8160c9-3c07-4c8c-bc87-f3a76d6a6e62",
+            "actions": [
+                {
+                    "name": "Join",
+                    "type": "Button",
+                    "id": "a659891e-e9b0-473f-84f6-cd583db65ab3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "08252384-9cba-41b2-acc3-b7d931b3a9fd",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "15c64081-75fc-49f9-b883-edc15d883eba",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

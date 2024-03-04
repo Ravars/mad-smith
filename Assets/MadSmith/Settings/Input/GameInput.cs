@@ -1413,6 +1413,45 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""CouchJoin"",
+            ""id"": ""9a8160c9-3c07-4c8c-bc87-f3a76d6a6e62"",
+            ""actions"": [
+                {
+                    ""name"": ""Join"",
+                    ""type"": ""Button"",
+                    ""id"": ""a659891e-e9b0-473f-84f6-cd583db65ab3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""08252384-9cba-41b2-acc3-b7d931b3a9fd"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""15c64081-75fc-49f9-b883-edc15d883eba"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1467,6 +1506,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         // Cheats
         m_Cheats = asset.FindActionMap("Cheats", throwIfNotFound: true);
         m_Cheats_OpenCheatMenu = m_Cheats.FindAction("OpenCheatMenu", throwIfNotFound: true);
+        // CouchJoin
+        m_CouchJoin = asset.FindActionMap("CouchJoin", throwIfNotFound: true);
+        m_CouchJoin_Join = m_CouchJoin.FindAction("Join", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1828,6 +1870,52 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         }
     }
     public CheatsActions @Cheats => new CheatsActions(this);
+
+    // CouchJoin
+    private readonly InputActionMap m_CouchJoin;
+    private List<ICouchJoinActions> m_CouchJoinActionsCallbackInterfaces = new List<ICouchJoinActions>();
+    private readonly InputAction m_CouchJoin_Join;
+    public struct CouchJoinActions
+    {
+        private @GameInput m_Wrapper;
+        public CouchJoinActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Join => m_Wrapper.m_CouchJoin_Join;
+        public InputActionMap Get() { return m_Wrapper.m_CouchJoin; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CouchJoinActions set) { return set.Get(); }
+        public void AddCallbacks(ICouchJoinActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CouchJoinActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CouchJoinActionsCallbackInterfaces.Add(instance);
+            @Join.started += instance.OnJoin;
+            @Join.performed += instance.OnJoin;
+            @Join.canceled += instance.OnJoin;
+        }
+
+        private void UnregisterCallbacks(ICouchJoinActions instance)
+        {
+            @Join.started -= instance.OnJoin;
+            @Join.performed -= instance.OnJoin;
+            @Join.canceled -= instance.OnJoin;
+        }
+
+        public void RemoveCallbacks(ICouchJoinActions instance)
+        {
+            if (m_Wrapper.m_CouchJoinActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICouchJoinActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CouchJoinActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CouchJoinActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CouchJoinActions @CouchJoin => new CouchJoinActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -1876,5 +1964,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     public interface ICheatsActions
     {
         void OnOpenCheatMenu(InputAction.CallbackContext context);
+    }
+    public interface ICouchJoinActions
+    {
+        void OnJoin(InputAction.CallbackContext context);
     }
 }

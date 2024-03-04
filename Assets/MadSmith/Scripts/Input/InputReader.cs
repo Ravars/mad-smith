@@ -7,16 +7,23 @@ using UnityEngine.InputSystem;
 namespace MadSmith.Scripts.Input
 {
     [CreateAssetMenu(fileName = "InputReader", menuName = "Game/Input Reader")]
-    public class InputReader : DescriptionBaseSo, GameInput.IGameplayActions
+    public class InputReader : DescriptionBaseSo, GameInput.IGameplayActions, GameInput.ICouchJoinActions
     {
         private GameInput _gameInput;
+        public int deviceId = -1;
         private void OnEnable()
         {
             if (_gameInput == null)
             {
                 _gameInput = new GameInput();
                 _gameInput.Gameplay.SetCallbacks(this);
+                _gameInput.CouchJoin.SetCallbacks(this);
             }
+        }
+
+        public void SetDeviceId(int newDeviceId)
+        {
+            deviceId = newDeviceId;
         }
 
         private void OnDisable()
@@ -33,6 +40,11 @@ namespace MadSmith.Scripts.Input
         {
             DisableAllInputs();
             _gameInput.Gameplay.Enable();
+        }
+        public void EnableCouchInput()
+        {
+            DisableAllInputs();
+            _gameInput.CouchJoin.Enable();
         }
 
         public void SetState(bool state)
@@ -58,15 +70,19 @@ namespace MadSmith.Scripts.Input
         public event UnityAction InteractEvent = delegate { };
         public event UnityAction GrabEvent = delegate { };
         public event UnityAction DashEvent = delegate { };
+        
+        //Couch Join
+        public event UnityAction<int> JoinEvent = delegate { };
         #endregion
 
         #region Gameplay Callbacks
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.performed && context.control.device.deviceId == deviceId)
             {
+                Debug.Log(context.control.device.deviceId);
                 MoveEvent?.Invoke(context.ReadValue<Vector2>());
-            }else if (context.canceled)
+            }else if (context.canceled && context.control.device.deviceId == deviceId)
             {
                 MoveCanceledEvent?.Invoke();
             }
@@ -74,7 +90,7 @@ namespace MadSmith.Scripts.Input
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed)
+            if (context.phase == InputActionPhase.Performed && context.control.device.deviceId == deviceId)
             {
                 InteractEvent?.Invoke();
             }
@@ -82,7 +98,7 @@ namespace MadSmith.Scripts.Input
 
         public void OnGrab(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed)
+            if (context.phase == InputActionPhase.Performed && context.control.device.deviceId == deviceId)
             {
                 GrabEvent?.Invoke();
             }
@@ -90,7 +106,7 @@ namespace MadSmith.Scripts.Input
 
         public void OnPause(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed)
+            if (context.phase == InputActionPhase.Performed && context.control.device.deviceId == deviceId)
             {
                 MenuPauseEvent?.Invoke();
             }
@@ -98,9 +114,19 @@ namespace MadSmith.Scripts.Input
 
         public void OnDash(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed)
+            if (context.phase == InputActionPhase.Performed && context.control.device.deviceId == deviceId)
             {
                 DashEvent?.Invoke();
+            }
+        }
+        #endregion
+
+        #region Join Couch
+        public void OnJoin(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                JoinEvent?.Invoke(context.control.device.deviceId);
             }
         }
         #endregion
