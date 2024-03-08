@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MadSmith.Scripts.Player;
+using MadSmith.Scripts.Character.Player;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,11 +12,13 @@ namespace _Developers.Vitor.TestCoop
     {
         private List<PlayerManager> _playerList = new List<PlayerManager>();
         [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private Canvas canvasInitialLogin;
         public override void OnStartAuthority()
         {
             base.OnStartAuthority();
             if (isLocalPlayer)
             {
+                canvasInitialLogin.gameObject.SetActive(true);
                 CmdCallAddPlayer(0);
             }
         }
@@ -40,7 +42,7 @@ namespace _Developers.Vitor.TestCoop
 
         public bool IsNewDevice(int deviceId)
         {
-            return _playerList.All(x => x.InputReader.deviceId != deviceId);
+            return _playerList.All(x => x.playerInputManager.InputReader.deviceId != deviceId);
         }
         
         [Command]
@@ -54,6 +56,7 @@ namespace _Developers.Vitor.TestCoop
             _playerList.Add(couchPlayer);
             couchPlayer.playerNumber = playerNumber;
             couchPlayer.deviceId = deviceId;
+            //TODO: Essa variavel não está sendo atualizada no cliente então da erro de NullReferenceException
             couchPlayer.coopManager = this;
             NetworkServer.Spawn(playerObj, connectionToClient);
             // couchPlayer.InputReader.SetDeviceId(playerNumber == 0 ? 1 : 18);

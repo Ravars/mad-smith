@@ -80,7 +80,6 @@ namespace MadSmith.Scripts.Input
         {
             if (context.performed && context.control.device.deviceId == deviceId)
             {
-                Debug.Log(context.control.device.deviceId);
                 MoveEvent?.Invoke(context.ReadValue<Vector2>());
             }else if (context.canceled && context.control.device.deviceId == deviceId)
             {
