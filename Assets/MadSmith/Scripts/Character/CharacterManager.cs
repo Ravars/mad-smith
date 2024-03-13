@@ -9,10 +9,14 @@ namespace MadSmith.Scripts.Character
         [HideInInspector] public Animator animator;
         
         [HideInInspector] public CharacterNetworkManager characterNetworkManager;
+
+        [Header("Flags")] 
+        public bool isPerformingAction = false;
+        public bool applyRootMotion = false;
         protected virtual void Awake()
         {
             characterController = GetComponent<CharacterController>();
-            animator = GetComponentInChildren<Animator>();
+            animator = GetComponent<Animator>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
             characterController.enabled = false;
         }

@@ -7,7 +7,9 @@ namespace MadSmith.Scripts.Character.Player
         private PlayerInputManager _playerInputManager;
         private PlayerManager _playerManager;
         public bool isMoving;
-        
+
+        [Header("Dash")] 
+        private Vector3 _dashDirection;
         protected override void Awake()
         {
             base.Awake();
@@ -31,6 +33,7 @@ namespace MadSmith.Scripts.Character.Player
 
         public void HandleAllLocomotion()
         {
+            if (_playerManager.isPerformingAction) return;
             HandleGroundedMovement();
         }
 
@@ -48,6 +51,34 @@ namespace MadSmith.Scripts.Character.Player
             _playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(isMoving);
         }
 
+        public void AttemptPerformDash()
+        {
+            Debug.Log("Dash");
+            if (_playerManager.isPerformingAction) return;
+            
+            if (_playerInputManager.MovingInputDirection.magnitude > 0.01f)
+            {
+                // _dashDirection = _playerInputManager.MovingInputDirection;
+                // _dashDirection = transform.forward * _playerInputManager.MovingInputDirection.x;
+                // _dashDirection += transform.right * _playerInputManager.MovingInputDirection.y;
+                // _dashDirection.y = 0;
+                _dashDirection = new Vector3(_playerInputManager.MovingInputDirection.x, 0, _playerInputManager.MovingInputDirection.y);
+                // _dashDirection.Normalize();
+                Debug.Log("dash" + _dashDirection);
+                Quaternion playerRotation = Quaternion.LookRotation(_dashDirection);
+                Debug.Log(playerRotation);
+                _playerManager.transform.rotation = playerRotation;
+                
+                // Perform a dash to direction
+                _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Dash_forward", true);
+            }   
+            else
+            {
+                
+                _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Dash_forward", true);
+                // Perform a dash forward
+            }
+        }
 
     }
 }
