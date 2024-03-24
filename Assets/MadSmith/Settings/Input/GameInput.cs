@@ -29,7 +29,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""98b80911-cf69-433e-a53e-dbacba7963f9"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
@@ -1426,6 +1426,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""d5f68cc8-a36f-47aa-940f-7aa1ac3129a7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1448,6 +1457,28 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e17f8b0a-44fd-4c57-bdf1-3c5caaf0d34a"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""115de8ff-9170-47a1-95d7-5dd6329cf9ee"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1509,6 +1540,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         // CouchJoin
         m_CouchJoin = asset.FindActionMap("CouchJoin", throwIfNotFound: true);
         m_CouchJoin_Join = m_CouchJoin.FindAction("Join", throwIfNotFound: true);
+        m_CouchJoin_Exit = m_CouchJoin.FindAction("Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1875,11 +1907,13 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_CouchJoin;
     private List<ICouchJoinActions> m_CouchJoinActionsCallbackInterfaces = new List<ICouchJoinActions>();
     private readonly InputAction m_CouchJoin_Join;
+    private readonly InputAction m_CouchJoin_Exit;
     public struct CouchJoinActions
     {
         private @GameInput m_Wrapper;
         public CouchJoinActions(@GameInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Join => m_Wrapper.m_CouchJoin_Join;
+        public InputAction @Exit => m_Wrapper.m_CouchJoin_Exit;
         public InputActionMap Get() { return m_Wrapper.m_CouchJoin; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1892,6 +1926,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Join.started += instance.OnJoin;
             @Join.performed += instance.OnJoin;
             @Join.canceled += instance.OnJoin;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
         }
 
         private void UnregisterCallbacks(ICouchJoinActions instance)
@@ -1899,6 +1936,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Join.started -= instance.OnJoin;
             @Join.performed -= instance.OnJoin;
             @Join.canceled -= instance.OnJoin;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
         }
 
         public void RemoveCallbacks(ICouchJoinActions instance)
@@ -1968,5 +2008,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     public interface ICouchJoinActions
     {
         void OnJoin(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
     }
 }

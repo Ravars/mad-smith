@@ -24,7 +24,7 @@ namespace MadSmith.Scripts.Character
             _characterManager.animator.CrossFade(targetAnimation, 0.2f);
             // Used to stop starting animations in mid of another one
             _characterManager.isPerformingAction = isPerformingAction;
-            Debug.Log(_characterManager.characterNetworkManager.netId);
+            // Debug.Log(_characterManager.characterNetworkManager.netId);
             // _characterManager.characterNetworkManager.NotifyTheServerOfActionAnimation()
         }
     }

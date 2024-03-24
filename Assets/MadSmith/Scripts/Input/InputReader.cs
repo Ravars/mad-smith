@@ -10,7 +10,6 @@ namespace MadSmith.Scripts.Input
     public class InputReader : DescriptionBaseSo, GameInput.IGameplayActions, GameInput.ICouchJoinActions
     {
         private GameInput _gameInput;
-        public int deviceId = -1;
         private void OnEnable()
         {
             if (_gameInput == null)
@@ -19,11 +18,6 @@ namespace MadSmith.Scripts.Input
                 _gameInput.Gameplay.SetCallbacks(this);
                 _gameInput.CouchJoin.SetCallbacks(this);
             }
-        }
-
-        public void SetDeviceId(int newDeviceId)
-        {
-            deviceId = newDeviceId;
         }
 
         private void OnDisable()
@@ -62,14 +56,14 @@ namespace MadSmith.Scripts.Input
 
         #region Unity Action Events
         //Menus
-        public event UnityAction MenuPauseEvent = delegate { };
+        public event UnityAction<int> MenuPauseEvent = delegate { };
         
         //Gameplay
-        public event UnityAction<Vector2> MoveEvent = delegate { };
-        public event UnityAction MoveCanceledEvent = delegate { };
-        public event UnityAction InteractEvent = delegate { };
-        public event UnityAction GrabEvent = delegate { };
-        public event UnityAction DashEvent = delegate { };
+        public event UnityAction<Vector2, int> MoveEvent = delegate { };
+        public event UnityAction<int> MoveCanceledEvent = delegate { };
+        public event UnityAction<int> InteractEvent = delegate { };
+        public event UnityAction<int> GrabEvent = delegate { };
+        public event UnityAction<int> DashEvent = delegate { };
         
         //Couch Join
         public event UnityAction<int> JoinEvent = delegate { };
@@ -78,44 +72,44 @@ namespace MadSmith.Scripts.Input
         #region Gameplay Callbacks
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (context.performed && context.control.device.deviceId == deviceId)
+            if (context.performed)
             {
-                MoveEvent?.Invoke(context.ReadValue<Vector2>());
-            }else if (context.canceled && context.control.device.deviceId == deviceId)
+                MoveEvent?.Invoke(context.ReadValue<Vector2>(), context.control.device.deviceId);
+            }else if (context.canceled)
             {
-                MoveCanceledEvent?.Invoke();
+                MoveCanceledEvent?.Invoke(context.control.device.deviceId);
             }
         }
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed && context.control.device.deviceId == deviceId)
+            if (context.performed)
             {
-                InteractEvent?.Invoke();
+                InteractEvent?.Invoke(context.control.device.deviceId);
             }
         }
 
         public void OnGrab(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed && context.control.device.deviceId == deviceId)
+            if (context.performed)
             {
-                GrabEvent?.Invoke();
+                GrabEvent?.Invoke(context.control.device.deviceId);
             }
         }
 
         public void OnPause(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed && context.control.device.deviceId == deviceId)
+            if (context.performed)
             {
-                MenuPauseEvent?.Invoke();
+                MenuPauseEvent?.Invoke(context.control.device.deviceId);
             }
         }
 
         public void OnDash(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed && context.control.device.deviceId == deviceId)
+            if (context.performed)
             {
-                DashEvent?.Invoke();
+                DashEvent?.Invoke(context.control.device.deviceId);
             }
         }
         #endregion
@@ -128,6 +122,15 @@ namespace MadSmith.Scripts.Input
                 JoinEvent?.Invoke(context.control.device.deviceId);
             }
         }
+
+        public void OnExit(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                MenuPauseEvent?.Invoke(context.control.device.deviceId);
+            }
+        }
+
         #endregion
     }
     

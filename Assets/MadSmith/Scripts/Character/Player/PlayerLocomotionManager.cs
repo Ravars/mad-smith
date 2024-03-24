@@ -53,7 +53,6 @@ namespace MadSmith.Scripts.Character.Player
 
         public void AttemptPerformDash()
         {
-            Debug.Log("Dash");
             if (_playerManager.isPerformingAction) return;
             
             if (_playerInputManager.MovingInputDirection.magnitude > 0.01f)
@@ -64,7 +63,6 @@ namespace MadSmith.Scripts.Character.Player
                 // _dashDirection.y = 0;
                 _dashDirection = new Vector3(_playerInputManager.MovingInputDirection.x, 0, _playerInputManager.MovingInputDirection.y);
                 // _dashDirection.Normalize();
-                Debug.Log("dash" + _dashDirection);
                 Quaternion playerRotation = Quaternion.LookRotation(_dashDirection);
                 Debug.Log(playerRotation);
                 _playerManager.transform.rotation = playerRotation;

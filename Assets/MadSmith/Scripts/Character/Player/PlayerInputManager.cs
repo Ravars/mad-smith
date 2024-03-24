@@ -1,6 +1,7 @@
 ﻿using System;
 using MadSmith.Scripts.Input;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MadSmith.Scripts.Character.Player
 {
@@ -11,10 +12,17 @@ namespace MadSmith.Scripts.Character.Player
         [Header("Player Actions")]
         [SerializeField] private bool dashInput = false;
         [field:SerializeField] public InputReader InputReader { get; private set; }
+        // public GameInput GameInput { get; set; }
         protected override void Awake()
         {
             base.Awake();
             _playerManager = GetComponent<PlayerManager>();
+            // if (GameInput == null)
+            // {
+            //     GameInput = new GameInput();
+            //     GameInput.Enable();
+            //     GameInput.Gameplay.Enable();
+            // }
         }
 
 
@@ -22,6 +30,8 @@ namespace MadSmith.Scripts.Character.Player
         {
             if(InputReader != null)
             {
+                // GameInput.Gameplay.Dash.performed += context => dashInput = true;
+                // GameInput.Gameplay.Move.performed += context => Debug.Log(context.ReadValue<Vector2>());
                 InputReader.MoveEvent += InputReaderOnMoveEvent;
                 InputReader.MoveCanceledEvent += InputReaderOnMoveCanceledEvent;
                 InputReader.DashEvent += InputReaderOnDashEvent;
@@ -38,6 +48,7 @@ namespace MadSmith.Scripts.Character.Player
         }
         public void SetInputReader(InputReader inputReader)
         {
+            Debug.Log("Set input reader");
             InputReader = inputReader;
         }
 
@@ -46,6 +57,11 @@ namespace MadSmith.Scripts.Character.Player
             base.Update();
             HandleDashInput();
         }
+
+        // private void GetAllInputs()
+        // {
+        //     
+        // }
 
         private void HandleDashInput()
         {
@@ -59,16 +75,20 @@ namespace MadSmith.Scripts.Character.Player
         }
 
         #region Events Subscriptions
-        private void InputReaderOnMoveEvent(Vector2 movingInputDirection)
+        private void InputReaderOnMoveEvent(Vector2 movingInputDirection, int deviceId)
         {
+            if (deviceId != _playerManager.deviceId) return;
             MovingInputDirection = movingInputDirection;
         }
-        private void InputReaderOnMoveCanceledEvent()
+        private void InputReaderOnMoveCanceledEvent(int deviceId)
         {
+            Debug.Log("Canceled");
+            if (deviceId != _playerManager.deviceId) return;
             MovingInputDirection = Vector2.zero;
         }
-        private void InputReaderOnDashEvent()
+        private void InputReaderOnDashEvent(int deviceId)
         {
+            if (deviceId != _playerManager.deviceId) return;
             dashInput = true;
         }
 

@@ -186,6 +186,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   movingSpeed: 3
+  smoothing: 5
+  moveSpeed: 5
 --- !u!114 &4584003083143726219
 MonoBehaviour:
   m_ObjectHideFlags: 0

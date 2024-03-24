@@ -1,5 +1,4 @@
-﻿using _Developers.Vitor.TestCoop;
-using MadSmith.Scripts.Managers;
+﻿using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Character.Player
@@ -11,44 +10,17 @@ namespace MadSmith.Scripts.Character.Player
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         
         [Header("Coop System")]
-        public int playerNumber;
-        public int deviceId = -1;
-        public CoopManager coopManager;
-        
+        [SyncVar] public int deviceId = -1;
         public override void OnStartAuthority()
         {
             base.OnStartAuthority();
-            playerInputManager.SetInputReader(InputManager.Instance.GetInputReader(playerNumber));
+            Debug.Log("Start authority manager");
+            // enabled = true;
             playerLocomotionManager.enabled = true;
             characterController.enabled = true; 
             playerInputManager.enabled = true;
-            
-            if (deviceId != -1)
-            {
-                playerInputManager.InputReader.SetDeviceId(deviceId);
-                playerInputManager.InputReader.EnableGameplayInput();
-            }
-            else
-            {
-                playerInputManager.InputReader.EnableCouchInput();
-                playerInputManager.InputReader.JoinEvent += InputReaderOnJoinEvent;
-            }
-        }
+            playerInputManager.InputReader.EnableGameplayInput();
 
-        private void InputReaderOnJoinEvent(int usedDeviceId)
-        {
-            if (playerInputManager.InputReader.deviceId != usedDeviceId && playerInputManager.InputReader.deviceId == -1 && playerNumber == 0)
-            {
-                playerInputManager.InputReader.SetDeviceId(usedDeviceId);
-                deviceId = usedDeviceId;
-                playerInputManager.InputReader.EnableGameplayInput();
-            }
-
-            if (playerInputManager.InputReader.deviceId != usedDeviceId && coopManager.IsNewDevice(usedDeviceId))
-            {
-                deviceId = usedDeviceId;
-                coopManager.CmdCallAddPlayer(playerNumber + 1, usedDeviceId);
-            }
         }
 
         protected override void Awake()
@@ -71,10 +43,10 @@ namespace MadSmith.Scripts.Character.Player
 
         private void OnApplicationFocus(bool hasFocus)
         {
-            if (enabled && playerInputManager.InputReader != null)
-            {
-                playerInputManager.InputReader.SetState(hasFocus);
-            }
+            // if (enabled && playerInputManager.InputReader != null)
+            // {
+            //     playerInputManager.InputReader.SetState(hasFocus);
+            // }
         }
     }
 }
