@@ -57,14 +57,11 @@ namespace MadSmith.Scripts.Character.Player
             
             if (_playerInputManager.MovingInputDirection.magnitude > 0.01f)
             {
-                // _dashDirection = _playerInputManager.MovingInputDirection;
-                // _dashDirection = transform.forward * _playerInputManager.MovingInputDirection.x;
-                // _dashDirection += transform.right * _playerInputManager.MovingInputDirection.y;
-                // _dashDirection.y = 0;
+                Vector3 animationRotation = new Vector3(0f, 27.56f, 0f); //offset due to Mixamo rotation
                 _dashDirection = new Vector3(_playerInputManager.MovingInputDirection.x, 0, _playerInputManager.MovingInputDirection.y);
-                // _dashDirection.Normalize();
-                Quaternion playerRotation = Quaternion.LookRotation(_dashDirection);
-                Debug.Log(playerRotation);
+                Vector3 adjustedDashDirection = Quaternion.Euler(animationRotation) * _dashDirection;
+                Quaternion playerRotation = Quaternion.LookRotation(adjustedDashDirection);
+                
                 _playerManager.transform.rotation = playerRotation;
                 
                 // Perform a dash to direction
@@ -72,7 +69,12 @@ namespace MadSmith.Scripts.Character.Player
             }   
             else
             {
+                Vector3 animationRotation = new Vector3(0f, 27.56f, 0f); //offset due to Mixamo rotation
+                _dashDirection = transform.forward;
+                Vector3 adjustedDashDirection = Quaternion.Euler(animationRotation) * _dashDirection;
+                Quaternion playerRotation = Quaternion.LookRotation(adjustedDashDirection);
                 
+                _playerManager.transform.rotation = playerRotation;
                 _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Dash_forward", true);
                 // Perform a dash forward
             }

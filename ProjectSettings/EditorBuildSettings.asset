@@ -15,15 +15,15 @@ EditorBuildSettings:
     path: Assets/ThirdParty/Mirror/Examples/Room/Scenes/MirrorRoomOnline.unity
     guid: d7a6763559b31854586c9e49916273ef
   - enabled: 0
-    path: Assets/SlimUI/Modern Menu 1/Scenes/Demos/Demo1.unity
+    path: Assets/ThirdParty/SlimUI/Modern Menu 1/Scenes/Demos/Demo1.unity
     guid: 829a86ba161cdd840842063447f41aab
   - enabled: 0
-    path: Assets/SlimUI/Modern Menu 1/Scenes/Demos/Demo2Mobile.unity
+    path: Assets/ThirdParty/SlimUI/Modern Menu 1/Scenes/Demos/Demo2Mobile.unity
     guid: b84379738a0ecc2449178df5547a202c
   - enabled: 0
-    path: Assets/SlimUI/Modern Menu 1/Scenes/Demos/Demo1Scene2.unity
+    path: Assets/ThirdParty/SlimUI/Modern Menu 1/Scenes/Demos/Demo1Scene2.unity
     guid: 4c89c579092f70744885e7d9f6baba7f
   - enabled: 1
-    path: Assets/_Developers/Vitor/TestInteractable/Interactions.unity
-    guid: d83620960feccdf4ca5bd0ee869db566
+    path: Assets/MadSmith/Scenes/Interactions.unity
+    guid: 2e165a6fb125d564ea27e60d4ad6944d
   m_configObjects: {}
