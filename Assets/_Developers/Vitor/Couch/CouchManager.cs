@@ -15,7 +15,8 @@ namespace _Developers.Vitor.Couch
         private NetworkIdentity _potato;
         public int maxCouchPlayers = 4;
         public GameObject playerPrefab;
-        [SyncVar] public List<int> deviceIds = new List<int>();
+        // [SyncVar] public List<int> deviceIds = new List<int>();
+        public readonly SyncList<int> deviceIds = new SyncList<int>();
         private PlayerInputManager _playerInputManager;
         private void Awake()
         {
@@ -31,6 +32,7 @@ namespace _Developers.Vitor.Couch
         public override void OnStartAuthority()
         {
             base.OnStartAuthority();
+            Debug.Log("isOwned: " + isOwned);
             _playerInputManager.enabled = true;
             _gameInput.CouchJoin.Enable();
             _gameInput.CouchJoin.Join.performed += JoinOnPerformed;
@@ -45,9 +47,10 @@ namespace _Developers.Vitor.Couch
 
         private void JoinOnPerformed(InputAction.CallbackContext obj)
         {
-            if (!authority) return;
+            if (!authority || !isOwned) return;
             if (!deviceIds.Contains(obj.control.device.deviceId) && deviceIds.Count < maxCouchPlayers)
             {
+                deviceIds.Add(obj.control.device.deviceId);
                 CmdAddPlayer(obj.control.device.deviceId);
             }
         }
@@ -60,7 +63,6 @@ namespace _Developers.Vitor.Couch
             PlayerManager playerManager = playerObj.GetComponent<PlayerManager>();
             NetworkServer.Spawn(playerObj, connectionToClient);
             playerManager.deviceId = deviceId;
-            deviceIds.Add(deviceId);
         }
     }
 }
