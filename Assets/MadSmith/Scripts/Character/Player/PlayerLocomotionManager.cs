@@ -7,6 +7,7 @@ namespace MadSmith.Scripts.Character.Player
         private PlayerInputManager _playerInputManager;
         private PlayerManager _playerManager;
         public bool isMoving;
+        
 
         [Header("Dash")] 
         private Vector3 _dashDirection;
@@ -45,8 +46,9 @@ namespace MadSmith.Scripts.Character.Player
                 _playerInputManager.TargetRotation = Quaternion.LookRotation(movementDirection);
             }
             transform.rotation = Quaternion.Slerp(transform.rotation, _playerInputManager.TargetRotation, Time.deltaTime * _playerInputManager.SmoothRotation);
-            movementDirection = movementDirection.normalized;
-            _playerManager.characterController.SimpleMove(movementDirection * _playerInputManager.MoveSpeed);
+            movementDirection.Normalize();
+            _playerManager.characterController.Move(movementDirection * (_playerInputManager.MoveSpeed * Time.deltaTime));
+            // _playerManager.characterController.SimpleMove(movementDirection * _playerInputManager.MoveSpeed);
             isMoving = _playerInputManager.MovingInputDirection.magnitude > 0.01f;
             _playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(isMoving);
         }
@@ -54,6 +56,8 @@ namespace MadSmith.Scripts.Character.Player
         public void AttemptPerformDash()
         {
             if (_playerManager.isPerformingAction) return;
+
+            if (!_playerManager.isGrounded) return;
             
             if (_playerInputManager.MovingInputDirection.magnitude > 0.01f)
             {

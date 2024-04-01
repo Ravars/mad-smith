@@ -6,7 +6,7 @@ namespace MadSmith.Scripts.Character
     public class CharacterAnimatorManager : MonoBehaviour
     {
         private CharacterManager _characterManager;
-        private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+        private static readonly int IsMovingAnimation = Animator.StringToHash("IsMoving");
         private float _isMoving;
         protected virtual void Awake()
         {
@@ -15,7 +15,7 @@ namespace MadSmith.Scripts.Character
         
         public void UpdateAnimatorMovementParameters(bool isMoving)
         {
-            _characterManager.animator.SetBool(IsMoving, isMoving);
+            _characterManager.animator.SetBool(IsMovingAnimation, isMoving);
         }
 
         public virtual void PlayTargetActionAnimation(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true)
@@ -25,7 +25,7 @@ namespace MadSmith.Scripts.Character
             // Used to stop starting animations in mid of another one
             _characterManager.isPerformingAction = isPerformingAction;
             // Debug.Log(_characterManager.characterNetworkManager.netId);
-            // _characterManager.characterNetworkManager.NotifyTheServerOfActionAnimation()
+            _characterManager.characterNetworkManager.NotifyTheServerOfActionAnimation(_characterManager.characterNetworkManager.netId, targetAnimation, applyRootMotion);
         }
     }
 }

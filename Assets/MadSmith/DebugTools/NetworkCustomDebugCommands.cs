@@ -25,6 +25,6 @@ namespace MadSmith.DebugTools
                 NetworkManager.singleton.networkAddress = ip;
             }
             NetworkManager.singleton.StartClient();
-        } 
+        }
     }
 }

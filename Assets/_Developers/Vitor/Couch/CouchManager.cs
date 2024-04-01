@@ -35,7 +35,6 @@ namespace _Developers.Vitor.Couch
             _gameInput.CouchJoin.Enable();
             _gameInput.CouchJoin.Join.performed += JoinOnPerformed;
             _playerInputManager.onPlayerLeft += PlayerInputManagerOnPlayerLeft;
-            Debug.Log("Start Authority");
         }
 
         private void PlayerInputManagerOnPlayerLeft(PlayerInput obj)
@@ -46,7 +45,6 @@ namespace _Developers.Vitor.Couch
 
         private void JoinOnPerformed(InputAction.CallbackContext obj)
         {
-            Debug.Log(authority + " " + deviceIds.Contains(obj.control.device.deviceId) + " " + deviceIds.Count);
             if (!authority) return;
             if (!deviceIds.Contains(obj.control.device.deviceId) && deviceIds.Count < maxCouchPlayers)
             {
@@ -57,7 +55,6 @@ namespace _Developers.Vitor.Couch
         [Command]
         private void CmdAddPlayer(int deviceId)
         {
-            Debug.Log("CmdAddPlayer: " + deviceId);
             Transform spawnObj = NetworkManager.startPositions[Random.Range(0, NetworkManager.startPositions.Count)];
             GameObject playerObj = Instantiate(playerPrefab, spawnObj.position, spawnObj.rotation);
             PlayerManager playerManager = playerObj.GetComponent<PlayerManager>();

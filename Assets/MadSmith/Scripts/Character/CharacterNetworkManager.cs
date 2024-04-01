@@ -27,6 +27,7 @@ namespace MadSmith.Scripts.Character
         [Command] //ServerRpc
         public void NotifyTheServerOfActionAnimation(uint clientId, string animationId, bool applyRootMotion)
         {
+            // Debug.Log("Command:" + netId);
             if (isServer)
             {
                 PlayActionAnimationForAllClients(clientId, animationId, applyRootMotion);
@@ -36,12 +37,7 @@ namespace MadSmith.Scripts.Character
         [ClientRpc]
         public void PlayActionAnimationForAllClients(uint clientId, string animationId, bool applyRootMotion)
         {
-            Debug.Log(netId + " " + clientId);
-            if (netId != clientId)
-            {
-                Debug.Log("Run");
-                PerformActionAnimationFromServer(animationId, applyRootMotion);
-            }
+            PerformActionAnimationFromServer(animationId, applyRootMotion);
         }
 
         private void PerformActionAnimationFromServer(string animationId, bool applyRootMotion)

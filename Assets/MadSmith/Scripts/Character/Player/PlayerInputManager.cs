@@ -1,7 +1,5 @@
-﻿using System;
-using MadSmith.Scripts.Input;
+﻿using MadSmith.Scripts.Input;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace MadSmith.Scripts.Character.Player
 {
@@ -48,7 +46,6 @@ namespace MadSmith.Scripts.Character.Player
         }
         public void SetInputReader(InputReader inputReader)
         {
-            Debug.Log("Set input reader");
             InputReader = inputReader;
         }
 
@@ -82,7 +79,6 @@ namespace MadSmith.Scripts.Character.Player
         }
         private void InputReaderOnMoveCanceledEvent(int deviceId)
         {
-            Debug.Log("Canceled");
             if (deviceId != _playerManager.deviceId) return;
             MovingInputDirection = Vector2.zero;
         }

@@ -10,9 +10,14 @@ namespace MadSmith.Scripts.Character
         
         [HideInInspector] public CharacterNetworkManager characterNetworkManager;
 
+        
         [Header("Flags")] 
         public bool isPerformingAction = false;
+        public bool isGrounded = true;
         public bool applyRootMotion = false;
+        
+        private static readonly int IsGroundedAnimation = Animator.StringToHash("IsGrounded");
+
         protected virtual void Awake()
         {
             characterController = GetComponent<CharacterController>();
@@ -23,6 +28,8 @@ namespace MadSmith.Scripts.Character
 
         protected virtual void Update()
         {
+            
+            // animator.SetBool(IsGroundedAnimation, isGrounded);
             if (isOwned)
             {
                 characterNetworkManager.networkPosition = transform.position;

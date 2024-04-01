@@ -1,3 +1,5 @@
+using MadSmith.Scripts.Utils;
+
 namespace Utils
 {
     public class PersistentSingleton<T> : Singleton<T> where T : Singleton<T>
