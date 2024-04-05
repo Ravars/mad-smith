@@ -2,6 +2,7 @@
 using MadSmith.Scripts.Events.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Audio;
+using Utils;
 
 namespace MadSmith.Scripts.Systems.Settings
 {
@@ -12,16 +13,16 @@ namespace MadSmith.Scripts.Systems.Settings
         MusicVolume,
         SfxVolume
     }
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : PersistentSingleton<AudioManager>
     {
         [Header("Audio control")]
         [SerializeField] private AudioMixer audioMixer = default;
         [Range(0f, 1f)]
-        [SerializeField] private float masterVolume = 1f;
+        [SerializeField] private float defaultMasterVolume = 1f;
         [Range(0f, 1f)]
-        [SerializeField] private float musicVolume = 1f;
+        [SerializeField] private float defaultMusicVolume = 0.8f;
         [Range(0f, 1f)]
-        [SerializeField] private float sfxVolume = 1f;
+        [SerializeField] private float defaultSfxVolume = 1f;
         
         
         [Header("Listening on channels")]
@@ -31,14 +32,14 @@ namespace MadSmith.Scripts.Systems.Settings
         [SerializeField] private FloatEventChannelSo musicVolumeChannel;
         [Tooltip("The SoundManager listens to this event, fired by objects in any scene, to change SFXs volume")]
         [SerializeField] private FloatEventChannelSo sfxVolumeChannel;
-        public static readonly int MaxVolume = 1;
-        public static readonly int StepVolume = 1;
+
+        private static readonly int MaxVolume = 1;
 
         private void Start()
         {
-            SetMasterVolume(PlayerPrefs.GetFloat(AudioGroups.MasterVolume.ToString()));
-            SetMusicVolume(PlayerPrefs.GetFloat(AudioGroups.MusicVolume.ToString()));
-            SetSfxVolume(PlayerPrefs.GetFloat(AudioGroups.SfxVolume.ToString()));
+            SetMasterVolume(PlayerPrefs.GetFloat(AudioGroups.MasterVolume.ToString(), defaultMasterVolume));
+            SetMusicVolume(PlayerPrefs.GetFloat(AudioGroups.MusicVolume.ToString(), defaultMusicVolume));
+            SetSfxVolume(PlayerPrefs.GetFloat(AudioGroups.SfxVolume.ToString(), defaultSfxVolume));
         }
 
         private void OnEnable()
@@ -48,25 +49,29 @@ namespace MadSmith.Scripts.Systems.Settings
             sfxVolumeChannel.OnEventRaised += SetSfxVolume;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             masterVolumeChannel.OnEventRaised -= SetMasterVolume;
             musicVolumeChannel.OnEventRaised -= SetMusicVolume;
             sfxVolumeChannel.OnEventRaised -= SetSfxVolume;
+            base.OnDestroy();
         }
-        public void SetMasterVolume(float newVolume)
+
+        private void SetMasterVolume(float newVolume)
         {
-            masterVolume = newVolume;
+            defaultMasterVolume = newVolume;
             SetGroupVolume(AudioGroups.MasterVolume.ToString(),newVolume);
         }
-        public void SetMusicVolume(float newVolume)
+
+        private void SetMusicVolume(float newVolume)
         {
-            musicVolume = newVolume;
+            defaultMusicVolume = newVolume;
             SetGroupVolume(AudioGroups.MusicVolume.ToString(),newVolume);
         }
-        public void SetSfxVolume(float newVolume)
+
+        private void SetSfxVolume(float newVolume)
         {
-            sfxVolume = newVolume;
+            defaultSfxVolume = newVolume;
             SetGroupVolume(AudioGroups.SfxVolume.ToString(),newVolume);
         }
 
@@ -82,7 +87,7 @@ namespace MadSmith.Scripts.Systems.Settings
         }
 
 
-        public static float LogarithmicDbTransform(float volume)
+        private static float LogarithmicDbTransform(float volume)
         {
             volume = Mathf.Clamp01(volume);
             volume = (Mathf.Log(89 * volume + 1) / Mathf.Log(90)) * 80;

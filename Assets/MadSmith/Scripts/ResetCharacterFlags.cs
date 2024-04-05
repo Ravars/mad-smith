@@ -9,11 +9,7 @@ public class ResetCharacterFlags : StateMachineBehaviour
      // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_characterManager == null)
-        {
-            _characterManager = animator.GetComponent<CharacterManager>();
-        }
-
+        if (!animator.TryGetComponent(out _characterManager)) return;
         _characterManager.isPerformingAction = false;
         _characterManager.applyRootMotion = false;
     }
