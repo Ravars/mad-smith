@@ -15,12 +15,6 @@ namespace MadSmith.Scripts.Character.Player
         {
             base.Awake();
             _playerManager = GetComponent<PlayerManager>();
-            // if (GameInput == null)
-            // {
-            //     GameInput = new GameInput();
-            //     GameInput.Enable();
-            //     GameInput.Gameplay.Enable();
-            // }
         }
 
 
@@ -28,13 +22,21 @@ namespace MadSmith.Scripts.Character.Player
         {
             if(InputReader != null)
             {
-                // GameInput.Gameplay.Dash.performed += context => dashInput = true;
-                // GameInput.Gameplay.Move.performed += context => Debug.Log(context.ReadValue<Vector2>());
                 InputReader.MoveEvent += InputReaderOnMoveEvent;
                 InputReader.MoveCanceledEvent += InputReaderOnMoveCanceledEvent;
                 InputReader.DashEvent += InputReaderOnDashEvent;
+                InputReader.MenuPauseEvent += InputReaderOnMenuPauseEvent;
             }
         }
+
+        private void InputReaderOnMenuPauseEvent(int arg0)
+        {
+            if (arg0 == _playerManager.deviceId)
+            {
+                _playerManager.changeGameStatus.RaiseEvent(true);
+            }
+        }
+
         private void OnDisable()
         {
             if (InputReader != null)

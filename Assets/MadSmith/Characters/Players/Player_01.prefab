@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 388298833050187735}
   - component: {fileID: 7681281390370133277}
   m_Layer: 6
-  m_Name: Player
+  m_Name: Player_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,6 +304,8 @@ MonoBehaviour:
   playerInputManager: {fileID: 0}
   playerLocomotionManager: {fileID: 4130287881607187964}
   playerAnimatorManager: {fileID: 0}
+  settingsPanelState: {fileID: 11400000, guid: a65e97b66e05be7438a48130e7813e4d, type: 2}
+  changeGameStatus: {fileID: 11400000, guid: 3e2d4caa25154994e97d7ccfe427d36c, type: 2}
   deviceId: -1
 --- !u!114 &7070238610100266706
 MonoBehaviour:

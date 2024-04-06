@@ -1,19 +1,24 @@
 ﻿using System.Collections.Generic;
+using MadSmith.Scripts.Utils;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace MadSmith.Scripts.Systems.MenuController
 {
     [RequireComponent(typeof(Canvas))]
     [DisallowMultipleComponent]
-    public class MenuController : MonoBehaviour
+    public class MenuController : Singleton<MenuController>
     {
         [SerializeField] private Page InitialPage;
         [SerializeField] private GameObject FirstFocusItem;
 
         private Canvas RootCanvas;
 
-        private Stack<Page> PageStack = new Stack<Page>();
+        private Stack<Page> PageStack = new Stack<Page>();        
+        [Header("Actions")]
+        [SerializeField]
+        private UnityEvent popOnDefaultPage;
 
         private void Awake()
         {
@@ -56,7 +61,6 @@ namespace MadSmith.Scripts.Systems.MenuController
 
         public void PushPage(Page Page)
         {
-            Debug.Log("Pushed");
             Page.Enter(true);
 
             if (PageStack.Count > 0)
@@ -87,6 +91,7 @@ namespace MadSmith.Scripts.Systems.MenuController
             }
             else
             {
+                popOnDefaultPage?.Invoke();
                 Debug.LogWarning("Trying to pop a page but only 1 page remains in the stack!");
             }
         }

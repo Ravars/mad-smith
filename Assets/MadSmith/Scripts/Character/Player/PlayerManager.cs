@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using MadSmith.Scripts.Events.ScriptableObjects;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Character.Player
@@ -8,6 +9,8 @@ namespace MadSmith.Scripts.Character.Player
         [HideInInspector] public PlayerInputManager playerInputManager;
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
+        public BoolEventChannelSo settingsPanelState;
+        public BoolEventChannelSo changeGameStatus;
         
         [Header("Coop System")]
         [SyncVar] public int deviceId = -1;
@@ -20,7 +23,19 @@ namespace MadSmith.Scripts.Character.Player
             characterController.enabled = true; 
             playerInputManager.enabled = true;
             playerInputManager.InputReader.EnableGameplayInput();
+            settingsPanelState.OnEventRaised += SettingsPanelStateOnEventRaised;
+        }
 
+        private void SettingsPanelStateOnEventRaised(bool value)
+        {
+            if (value)
+            {
+                playerInputManager.InputReader.EnableMenuInput();
+            }
+            else
+            {
+                playerInputManager.InputReader.EnableGameplayInput();
+            }
         }
 
         protected override void Awake()

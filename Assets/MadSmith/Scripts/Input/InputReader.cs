@@ -28,12 +28,18 @@ namespace MadSmith.Scripts.Input
         public void DisableAllInputs()
         {
             _gameInput.Gameplay.Disable();
+            _gameInput.Menus.Disable();
         }
 
         public void EnableGameplayInput()
         {
             DisableAllInputs();
             _gameInput.Gameplay.Enable();
+        }
+        public void EnableMenuInput()
+        {
+            DisableAllInputs();
+            _gameInput.Menus.Enable();
         }
         public void EnableCouchInput()
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MadSmith.Scripts.Character.Player;
+using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using Mirror;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace _Developers.Vitor.Couch
         // [SyncVar] public List<int> deviceIds = new List<int>();
         public readonly SyncList<int> deviceIds = new SyncList<int>();
         private PlayerInputManager _playerInputManager;
+        
         private void Awake()
         {
             _playerInputManager = GetComponent<PlayerInputManager>();
@@ -38,6 +40,7 @@ namespace _Developers.Vitor.Couch
             _gameInput.CouchJoin.Join.performed += JoinOnPerformed;
             _playerInputManager.onPlayerLeft += PlayerInputManagerOnPlayerLeft;
         }
+
 
         private void PlayerInputManagerOnPlayerLeft(PlayerInput obj)
         {
