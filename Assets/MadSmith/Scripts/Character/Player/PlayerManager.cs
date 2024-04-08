@@ -9,6 +9,7 @@ namespace MadSmith.Scripts.Character.Player
         [HideInInspector] public PlayerInputManager playerInputManager;
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
+        [HideInInspector] public PlayerInteractionManager playerInteractionManager;
         public BoolEventChannelSo settingsPanelState;
         public BoolEventChannelSo changeGameStatus;
         
@@ -44,6 +45,7 @@ namespace MadSmith.Scripts.Character.Player
             playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
             playerInputManager = GetComponent<PlayerInputManager>();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            playerInteractionManager = GetComponent<PlayerInteractionManager>();
             
             // playerLocomotionManager.enabled = false;
             playerInputManager.enabled = false;

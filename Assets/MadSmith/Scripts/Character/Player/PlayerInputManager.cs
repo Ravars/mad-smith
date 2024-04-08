@@ -9,6 +9,7 @@ namespace MadSmith.Scripts.Character.Player
         
         [Header("Player Actions")]
         [SerializeField] private bool dashInput = false;
+        [SerializeField] private bool grabInput = false;
         [field:SerializeField] public InputReader InputReader { get; private set; }
         // public GameInput GameInput { get; set; }
         protected override void Awake()
@@ -26,12 +27,12 @@ namespace MadSmith.Scripts.Character.Player
                 InputReader.MoveCanceledEvent += InputReaderOnMoveCanceledEvent;
                 InputReader.DashEvent += InputReaderOnDashEvent;
                 InputReader.MenuPauseEvent += InputReaderOnMenuPauseEvent;
+                InputReader.GrabEvent += InputReaderOnGrabEvent;
             }
         }
-
-        private void InputReaderOnMenuPauseEvent(int arg0)
+        private void InputReaderOnMenuPauseEvent(int deviceId)
         {
-            if (arg0 == _playerManager.deviceId)
+            if (deviceId == _playerManager.deviceId)
             {
                 _playerManager.changeGameStatus.RaiseEvent(true);
             }
@@ -44,24 +45,16 @@ namespace MadSmith.Scripts.Character.Player
                 InputReader.MoveEvent -= InputReaderOnMoveEvent;
                 InputReader.MoveCanceledEvent -= InputReaderOnMoveCanceledEvent;
                 InputReader.DashEvent -= InputReaderOnDashEvent;
+                InputReader.MenuPauseEvent -= InputReaderOnMenuPauseEvent;
+                InputReader.GrabEvent -= InputReaderOnGrabEvent;
             }
         }
-        public void SetInputReader(InputReader inputReader)
-        {
-            InputReader = inputReader;
-        }
-
         protected override void Update()
         {
             base.Update();
             HandleDashInput();
+            HandleGrabInput();
         }
-
-        // private void GetAllInputs()
-        // {
-        //     
-        // }
-
         private void HandleDashInput()
         {
             if (dashInput)
@@ -70,6 +63,17 @@ namespace MadSmith.Scripts.Character.Player
                 
                 //Perform a dash
                 _playerManager.playerLocomotionManager.AttemptPerformDash();
+            }
+        }
+
+        private void HandleGrabInput()
+        {
+            if (grabInput)
+            {
+                grabInput = false;
+                
+                //Perform a grab
+                _playerManager.playerInteractionManager.AttemptPerformGrab();
             }
         }
 
@@ -88,6 +92,11 @@ namespace MadSmith.Scripts.Character.Player
         {
             if (deviceId != _playerManager.deviceId) return;
             dashInput = true;
+        }
+        private void InputReaderOnGrabEvent(int deviceId)
+        {
+            if (deviceId != _playerManager.deviceId) return;
+            grabInput = true;
         }
 
         #endregion

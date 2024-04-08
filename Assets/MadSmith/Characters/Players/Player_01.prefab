@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 7070238610100266706}
   - component: {fileID: 4130287881607187964}
   - component: {fileID: -8740632488487949121}
+  - component: {fileID: 2213197895432810624}
   - component: {fileID: 5067131071540393934}
   - component: {fileID: 3611395894299333542}
   - component: {fileID: 7553467574892488994}
@@ -304,6 +305,7 @@ MonoBehaviour:
   playerInputManager: {fileID: 0}
   playerLocomotionManager: {fileID: 4130287881607187964}
   playerAnimatorManager: {fileID: 0}
+  playerInteractionManager: {fileID: 0}
   settingsPanelState: {fileID: 11400000, guid: a65e97b66e05be7438a48130e7813e4d, type: 2}
   changeGameStatus: {fileID: 11400000, guid: 3e2d4caa25154994e97d7ccfe427d36c, type: 2}
   deviceId: -1
@@ -324,6 +326,7 @@ MonoBehaviour:
   <SmoothRotation>k__BackingField: 5
   <MoveSpeed>k__BackingField: 5
   dashInput: 0
+  grabInput: 0
   <InputReader>k__BackingField: {fileID: 11400000, guid: 17ccbc21c3c0a5e4d99ff0e44401269a,
     type: 2}
 --- !u!114 &4130287881607187964
@@ -357,6 +360,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b8d17011515459da3a369724df22a28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2213197895432810624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6361639394288474922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b5875a6789f4e5e96d5b398c86ab7ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5067131071540393934
