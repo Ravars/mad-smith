@@ -61,8 +61,15 @@ namespace _Developers.Vitor.Couch
         [Command]
         private void CmdAddPlayer(int deviceId)
         {
-            Transform spawnObj = NetworkManager.startPositions[Random.Range(0, NetworkManager.startPositions.Count)];
-            GameObject playerObj = Instantiate(playerPrefab, spawnObj.position, spawnObj.rotation);
+            Vector3 spawnPosition = Vector3.zero;
+            Quaternion spawnRotation = Quaternion.identity;
+            if (NetworkManager.startPositions.Count > 0)
+            {
+                Transform spawnObj = NetworkManager.startPositions[Random.Range(0, NetworkManager.startPositions.Count)];
+                spawnPosition = spawnObj.position;
+                spawnRotation = spawnObj.rotation;
+            }
+            GameObject playerObj = Instantiate(playerPrefab, spawnPosition, spawnRotation);
             PlayerManager playerManager = playerObj.GetComponent<PlayerManager>();
             NetworkServer.Spawn(playerObj, connectionToClient);
             playerManager.deviceId = deviceId;
