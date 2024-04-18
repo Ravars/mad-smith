@@ -10,6 +10,7 @@ namespace MadSmith.Scripts.Character.Player
         [Header("Player Actions")]
         [SerializeField] private bool dashInput = false;
         [SerializeField] private bool grabInput = false;
+        [SerializeField] private bool attackInput = false;
         [field:SerializeField] public InputReader InputReader { get; private set; }
         // public GameInput GameInput { get; set; }
         protected override void Awake()
@@ -28,6 +29,7 @@ namespace MadSmith.Scripts.Character.Player
                 InputReader.DashEvent += InputReaderOnDashEvent;
                 InputReader.MenuPauseEvent += InputReaderOnMenuPauseEvent;
                 InputReader.GrabEvent += InputReaderOnGrabEvent;
+                InputReader.AttackEvent += InputReaderOnAttackEvent;
             }
         }
         private void InputReaderOnMenuPauseEvent(int deviceId)
@@ -54,6 +56,7 @@ namespace MadSmith.Scripts.Character.Player
             base.Update();
             HandleDashInput();
             HandleGrabInput();
+            HandleAttackInput();
         }
         private void HandleDashInput()
         {
@@ -77,6 +80,17 @@ namespace MadSmith.Scripts.Character.Player
             }
         }
 
+        private void HandleAttackInput()
+        {
+            if (attackInput)
+            {
+                attackInput = false;
+                
+                //Perform a attack
+                _playerManager.playerInteractionManager.AttemptPerformAttack();
+            }
+        }
+
         #region Events Subscriptions
         private void InputReaderOnMoveEvent(Vector2 movingInputDirection, int deviceId)
         {
@@ -97,6 +111,11 @@ namespace MadSmith.Scripts.Character.Player
         {
             if (deviceId != _playerManager.deviceId) return;
             grabInput = true;
+        }
+        private void InputReaderOnAttackEvent(int deviceId)
+        {
+            if (deviceId != _playerManager.deviceId) return;
+            attackInput = true;
         }
 
         #endregion

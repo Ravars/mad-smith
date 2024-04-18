@@ -68,6 +68,7 @@ namespace MadSmith.Scripts.Input
         public event UnityAction<Vector2, int> MoveEvent = delegate { };
         public event UnityAction<int> MoveCanceledEvent = delegate { };
         public event UnityAction<int> InteractEvent = delegate { };
+        public event UnityAction<int> AttackEvent = delegate { };
         public event UnityAction<int> GrabEvent = delegate { };
         public event UnityAction<int> DashEvent = delegate { };
         
@@ -95,6 +96,14 @@ namespace MadSmith.Scripts.Input
             }
         }
 
+        public void OnAttack(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                AttackEvent?.Invoke(context.control.device.deviceId);
+            }
+        }
+
         public void OnGrab(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -118,6 +127,8 @@ namespace MadSmith.Scripts.Input
                 DashEvent?.Invoke(context.control.device.deviceId);
             }
         }
+        
+        
         #endregion
 
         #region Join Couch

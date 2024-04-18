@@ -8,5 +8,9 @@ namespace MadSmith.Scripts.Character.Player
         {
             Debug.Log("Grab");
         }
+        public void AttemptPerformAttack()
+        {
+            Debug.Log("Attack");
+        }
     }
 }
