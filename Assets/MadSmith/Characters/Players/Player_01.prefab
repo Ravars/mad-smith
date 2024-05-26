@@ -323,10 +323,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MovingInputDirection>k__BackingField: {x: 0, y: 0}
   <TargetRotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
-  <SmoothRotation>k__BackingField: 5
-  <MoveSpeed>k__BackingField: 5
   dashInput: 0
   grabInput: 0
+  attackInput: 0
   <InputReader>k__BackingField: {fileID: 11400000, guid: 17ccbc21c3c0a5e4d99ff0e44401269a,
     type: 2}
 --- !u!114 &4130287881607187964
@@ -341,6 +340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bda872c405845cd8d43a0184fa27477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <SmoothRotation>k__BackingField: 5
+  <MoveSpeed>k__BackingField: 5
   gravityForce: -5.55
   groundLayer:
     serializedVersion: 2
@@ -3839,6 +3840,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: b6dce885c7f6c324892164d37153f04d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7081008147900511705, guid: b6dce885c7f6c324892164d37153f04d,
         type: 3}

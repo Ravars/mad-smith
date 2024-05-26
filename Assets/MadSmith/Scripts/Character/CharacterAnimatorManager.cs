@@ -18,10 +18,10 @@ namespace MadSmith.Scripts.Character
             _characterManager.animator.SetBool(IsMovingAnimation, isMoving);
         }
 
-        public virtual void PlayTargetActionAnimation(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true)
+        public virtual void PlayTargetActionAnimation(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, float normalizedTransitionDuration = 0.2f)
         {
             _characterManager.applyRootMotion = applyRootMotion;
-            _characterManager.animator.CrossFade(targetAnimation, 0.2f);
+            _characterManager.animator.CrossFade(targetAnimation, normalizedTransitionDuration);
             // Used to stop starting animations in mid of another one
             _characterManager.isPerformingAction = isPerformingAction;
             // Debug.Log(_characterManager.characterNetworkManager.netId);
