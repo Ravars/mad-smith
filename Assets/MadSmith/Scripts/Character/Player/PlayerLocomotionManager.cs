@@ -45,9 +45,9 @@ namespace MadSmith.Scripts.Character.Player
             {
                 _playerInputManager.TargetRotation = Quaternion.LookRotation(movementDirection);
             }
-            transform.rotation = Quaternion.Slerp(transform.rotation, _playerInputManager.TargetRotation, Time.deltaTime * _playerInputManager.SmoothRotation);
+            transform.rotation = Quaternion.Slerp(transform.rotation, _playerInputManager.TargetRotation, Time.deltaTime * SmoothRotation);
             movementDirection.Normalize();
-            _playerManager.characterController.Move(movementDirection * (_playerInputManager.MoveSpeed * Time.deltaTime));
+            _playerManager.characterController.Move(movementDirection * (MoveSpeed * Time.deltaTime));
             // _playerManager.characterController.SimpleMove(movementDirection * _playerInputManager.MoveSpeed);
             isMoving = _playerInputManager.MovingInputDirection.magnitude > 0.01f;
             _playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(isMoving);

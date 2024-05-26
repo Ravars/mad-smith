@@ -7,7 +7,10 @@ namespace MadSmith.Scripts.Character
     public class CharacterLocomotionManager : MonoBehaviour
     {
         private PlayerManager _character;
-
+        [field: Header("Moving")]
+        [field: SerializeField] public float SmoothRotation { get; protected set; } = 5f;
+        [field: SerializeField] public float MoveSpeed  { get; protected set; } = 5f;
+        
         [Header("Ground Check")]
         [SerializeField] private float gravityForce = -5.55f;
         [SerializeField] private LayerMask groundLayer;
