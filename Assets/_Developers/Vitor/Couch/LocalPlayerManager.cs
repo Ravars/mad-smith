@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using MadSmith.Scripts.Character.Player;
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.GameSaving;
 using MadSmith.Scripts.Input;
+using MadSmith.Scripts.Managers;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,7 +12,7 @@ using Random = UnityEngine.Random;
 
 namespace _Developers.Vitor.Couch
 {
-    public class CouchManager : NetworkBehaviour
+    public class LocalPlayerManager : NetworkBehaviour
     {
         private GameInput _gameInput;
         private NetworkIdentity _potato;
@@ -19,7 +21,8 @@ namespace _Developers.Vitor.Couch
         // [SyncVar] public List<int> deviceIds = new List<int>();
         public readonly SyncList<int> deviceIds = new SyncList<int>();
         private PlayerInputManager _playerInputManager;
-        
+
+        private float timeLastSavedOrSpawned;
         private void Awake()
         {
             _playerInputManager = GetComponent<PlayerInputManager>();
@@ -28,6 +31,8 @@ namespace _Developers.Vitor.Couch
             {
                 _gameInput = new GameInput();
             }
+
+            timeLastSavedOrSpawned = Time.time;
             // _playerInputManager.onPlayerJoined += PlayerInputManagerOnPlayerJoined;
         }
 
@@ -39,6 +44,10 @@ namespace _Developers.Vitor.Couch
             _gameInput.CouchJoin.Enable();
             _gameInput.CouchJoin.Join.performed += JoinOnPerformed;
             _playerInputManager.onPlayerLeft += PlayerInputManagerOnPlayerLeft;
+            if (TemporarySaveGameManager.InstanceExists)
+            {
+                TemporarySaveGameManager.Instance.localPlayerManager = this;
+            }
         }
 
 
@@ -73,6 +82,17 @@ namespace _Developers.Vitor.Couch
             PlayerManager playerManager = playerObj.GetComponent<PlayerManager>();
             NetworkServer.Spawn(playerObj, connectionToClient);
             playerManager.deviceId = deviceId;
+        }
+
+        public void SaveGameToCurrentGameData(ref GameSaveData gameSaveData)
+        {
+            gameSaveData.secondsPlayed += Time.time - timeLastSavedOrSpawned;
+            timeLastSavedOrSpawned = Time.time;
+        }
+
+        public void LoadDataFromCurrentGameData(ref GameSaveData gameSaveData)
+        {
+            
         }
     }
 }
