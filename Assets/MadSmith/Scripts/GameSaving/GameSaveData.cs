@@ -11,5 +11,7 @@ namespace MadSmith.Scripts.GameSaving
         [Header("Time Played")] 
         public float secondsPlayed;
 
+        public bool loaded = false;
+
     }
 }

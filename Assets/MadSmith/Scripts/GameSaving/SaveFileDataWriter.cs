@@ -38,7 +38,7 @@ namespace MadSmith.Scripts.GameSaving
             }
             catch (Exception ex)
             {
-                Debug.LogError("Error trying to save game data, game not saved");
+                Debug.LogError("Error trying to save game data, game not saved. " + ex);
             }
         }
 
@@ -60,10 +60,11 @@ namespace MadSmith.Scripts.GameSaving
                     }
 
                     gameSaveData = JsonUtility.FromJson<GameSaveData>(dataToLoad);
+                    gameSaveData.loaded = true;
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError("Error trying to Load save file");
+                    Debug.LogError("Error trying to Load save file. " + ex);
                 }
             }
 

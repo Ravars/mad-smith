@@ -301,19 +301,24 @@ MonoBehaviour:
   currentGameSaveData:
     playerName: 
     secondsPlayed: 0
+    loaded: 0
   saveFileName: 
   gameSlot01:
     playerName: 
     secondsPlayed: 0
+    loaded: 0
   gameSlot02:
     playerName: 
     secondsPlayed: 0
+    loaded: 0
   gameSlot03:
     playerName: 
     secondsPlayed: 0
+    loaded: 0
   gameSlot04:
     playerName: 
     secondsPlayed: 0
+    loaded: 0
 --- !u!114 &97314835
 MonoBehaviour:
   m_ObjectHideFlags: 0

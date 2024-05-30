@@ -71,7 +71,7 @@ namespace MadSmith.Scripts.Systems.MenuController
         public void Exit(bool playAudio)
         {
             prePopAction?.Invoke();
-            switch (entryMode)
+            switch (exitMode)
             {
                 case EntryMode.SLIDE:
                     SlideOut(playAudio);

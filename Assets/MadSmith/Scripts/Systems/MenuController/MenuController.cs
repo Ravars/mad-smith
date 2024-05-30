@@ -20,8 +20,9 @@ namespace MadSmith.Scripts.Systems.MenuController
         [SerializeField]
         private UnityEvent popOnDefaultPage;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             RootCanvas = GetComponent<Canvas>();
         }
 

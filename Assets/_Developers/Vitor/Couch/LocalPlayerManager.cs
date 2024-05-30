@@ -92,7 +92,7 @@ namespace _Developers.Vitor.Couch
 
         public void LoadDataFromCurrentGameData(ref GameSaveData gameSaveData)
         {
-            
+            timeLastSavedOrSpawned = Time.time;
         }
     }
 }
