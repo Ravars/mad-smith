@@ -409,6 +409,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Delete"",
+                    ""type"": ""Button"",
+                    ""id"": ""67fc481d-49a1-4637-a823-70b95003840d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1093,6 +1102,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""Point"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6dbb5f13-408d-4b67-abf7-270096328ff6"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Delete"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1566,6 +1586,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Menus_ChangeTab = m_Menus.FindAction("ChangeTab", throwIfNotFound: true);
         m_Menus_Click = m_Menus.FindAction("Click", throwIfNotFound: true);
         m_Menus_Point = m_Menus.FindAction("Point", throwIfNotFound: true);
+        m_Menus_Delete = m_Menus.FindAction("Delete", throwIfNotFound: true);
         // Dialogues
         m_Dialogues = asset.FindActionMap("Dialogues", throwIfNotFound: true);
         m_Dialogues_MoveSelection = m_Dialogues.FindAction("MoveSelection", throwIfNotFound: true);
@@ -1735,6 +1756,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Menus_ChangeTab;
     private readonly InputAction m_Menus_Click;
     private readonly InputAction m_Menus_Point;
+    private readonly InputAction m_Menus_Delete;
     public struct MenusActions
     {
         private @GameInput m_Wrapper;
@@ -1749,6 +1771,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @ChangeTab => m_Wrapper.m_Menus_ChangeTab;
         public InputAction @Click => m_Wrapper.m_Menus_Click;
         public InputAction @Point => m_Wrapper.m_Menus_Point;
+        public InputAction @Delete => m_Wrapper.m_Menus_Delete;
         public InputActionMap Get() { return m_Wrapper.m_Menus; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1788,6 +1811,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Point.started += instance.OnPoint;
             @Point.performed += instance.OnPoint;
             @Point.canceled += instance.OnPoint;
+            @Delete.started += instance.OnDelete;
+            @Delete.performed += instance.OnDelete;
+            @Delete.canceled += instance.OnDelete;
         }
 
         private void UnregisterCallbacks(IMenusActions instance)
@@ -1822,6 +1848,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Point.started -= instance.OnPoint;
             @Point.performed -= instance.OnPoint;
             @Point.canceled -= instance.OnPoint;
+            @Delete.started -= instance.OnDelete;
+            @Delete.performed -= instance.OnDelete;
+            @Delete.canceled -= instance.OnDelete;
         }
 
         public void RemoveCallbacks(IMenusActions instance)
@@ -2040,6 +2069,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnChangeTab(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
         void OnPoint(InputAction.CallbackContext context);
+        void OnDelete(InputAction.CallbackContext context);
     }
     public interface IDialoguesActions
     {

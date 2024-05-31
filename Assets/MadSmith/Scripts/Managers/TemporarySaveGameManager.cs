@@ -12,21 +12,23 @@ namespace MadSmith.Scripts.Managers
         public LocalPlayerManager localPlayerManager;
         public bool saveGame = false;
         public bool loadGame = false;
-        
-        
-        [Header("Current Game Data")] 
-        public GameDataSlot currentGameSaveSlot;
-        public GameSaveData currentGameSaveData;
-        [SerializeField] private string saveFileName;
+
+
+        [Header("Current Game Data")]
+        public int currentGameSlotIndex;
+        private GameSaveData _currentGameSaveData;
 
         [Header("Save Data Writer")] 
         private SaveFileDataWriter _saveFileDataWriter;
-        
+
         [Header("Game Save Data Slots")] 
-        public GameSaveData gameSlot01;
-        public GameSaveData gameSlot02;
-        public GameSaveData gameSlot03;
-        public GameSaveData gameSlot04;
+        [SerializeField] private int gameSlotsAmount;
+        public GameSaveData[] gameSaveData;
+        protected override void Awake()
+        {
+            base.Awake();
+            gameSaveData = new GameSaveData[gameSlotsAmount];
+        }
 
         private void Update()
         {
@@ -47,53 +49,43 @@ namespace MadSmith.Scripts.Managers
         {
             LoadAllGameSlots();
         }
-
-        public string DecideGameDataFileNameBasedOnSlotBeingUsed(GameDataSlot slot)
+        public string DecideGameDataFileNameBasedOnIndex(int slotIndex)
         {
-            return slot.ToString() + ".txt";
+            return "GameSlot" + slotIndex.ToString().PadLeft(2,'0') + ".txt";
         }
 
-        public GameSaveData GetGameDataSlotByName(GameDataSlot slot)
+        public GameSaveData GetGameDataSlotByIndex(int index)
         {
-            switch (slot)
-            {
-                case GameDataSlot.GameSlot01:
-                    return gameSlot01;
-                case GameDataSlot.GameSlot02:
-                    return gameSlot02;
-                case GameDataSlot.GameSlot03:
-                    return gameSlot03;
-                case GameDataSlot.GameSlot04:
-                    return gameSlot04;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(slot), slot, null);
-            }
+            return gameSaveData[index];
         }
 
-        public void CreateNewGame()
+        public bool AttemptCreateNewGame()
         {
-            saveFileName = DecideGameDataFileNameBasedOnSlotBeingUsed(currentGameSaveSlot);
-            currentGameSaveData = new GameSaveData();
-        }
-
-        [ContextMenu("Load Game")]
-        public void LoadGame()
-        {
-            saveFileName = DecideGameDataFileNameBasedOnSlotBeingUsed(currentGameSaveSlot);
             _saveFileDataWriter = new SaveFileDataWriter
             {
-                saveDataDirectoryPath = Application.persistentDataPath,
-                saveFileName = saveFileName,
+                saveDataDirectoryPath = Application.persistentDataPath
             };
-            currentGameSaveData = _saveFileDataWriter.LoadSaveFile();
-            localPlayerManager.LoadDataFromCurrentGameData(ref currentGameSaveData);
-            // Load game scene
+            for (var index = 0; index < gameSaveData.Length; index++)
+            {
+                _saveFileDataWriter.saveFileName = DecideGameDataFileNameBasedOnIndex(index);
+                if (!_saveFileDataWriter.CheckIfFileExists())
+                {
+                    // saveFileName = DecideGameDataFileNameBasedOnIndex(index);
+                    currentGameSlotIndex = index;
+                    _currentGameSaveData = new GameSaveData();
+                    return true;
+                }
+            }
+            Debug.Log("No slots available");
+            return false;
+            // saveFileName = DecideGameDataFileNameBasedOnIndex(currentGameSlotIndex);
+            // _currentGameSaveData = new GameSaveData();
         }
 
         [ContextMenu("Save Game")]
         public string SaveGame()
         {
-            saveFileName = DecideGameDataFileNameBasedOnSlotBeingUsed(currentGameSaveSlot);
+            var saveFileName = DecideGameDataFileNameBasedOnIndex(currentGameSlotIndex);
 
             _saveFileDataWriter = new SaveFileDataWriter()
             {
@@ -102,29 +94,47 @@ namespace MadSmith.Scripts.Managers
             };
             
             // Fill the GameSaveData
-            localPlayerManager.SaveGameToCurrentGameData(ref currentGameSaveData);
-            
-            _saveFileDataWriter.CreateNewGameSaveData(currentGameSaveData);
+            localPlayerManager.SaveGameToCurrentGameData(ref _currentGameSaveData);
+            gameSaveData[currentGameSlotIndex] = _currentGameSaveData;
+            _saveFileDataWriter.CreateNewGameSaveData(_currentGameSaveData);
             return saveFileName;
+        }
+        
+        [ContextMenu("Load Game")]
+        public void LoadGame()
+        {
+            _saveFileDataWriter = new SaveFileDataWriter
+            {
+                saveDataDirectoryPath = Application.persistentDataPath,
+                saveFileName = DecideGameDataFileNameBasedOnIndex(currentGameSlotIndex),
+            };
+            _currentGameSaveData = _saveFileDataWriter.LoadSaveFile();
+            localPlayerManager.LoadDataFromCurrentGameData(ref _currentGameSaveData);
+            // Load game scene
+        }
+
+        public void DeleteGame(int indexSlot)
+        {
+            _saveFileDataWriter = new SaveFileDataWriter
+            {
+                saveDataDirectoryPath = Application.persistentDataPath,
+                saveFileName = DecideGameDataFileNameBasedOnIndex(indexSlot)
+            };
+            _saveFileDataWriter.DeleteSaveFile();
+            gameSaveData[indexSlot] = null;
         }
 
         private void LoadAllGameSlots()
         {
-            _saveFileDataWriter = new SaveFileDataWriter();
-            _saveFileDataWriter.saveDataDirectoryPath = Application.persistentDataPath;
-
-            _saveFileDataWriter.saveFileName = DecideGameDataFileNameBasedOnSlotBeingUsed(GameDataSlot.GameSlot01);
-            gameSlot01 = _saveFileDataWriter.LoadSaveFile();
-            
-            _saveFileDataWriter.saveFileName = DecideGameDataFileNameBasedOnSlotBeingUsed(GameDataSlot.GameSlot02);
-            gameSlot02 = _saveFileDataWriter.LoadSaveFile();
-            
-            _saveFileDataWriter.saveFileName = DecideGameDataFileNameBasedOnSlotBeingUsed(GameDataSlot.GameSlot03);
-            gameSlot03 = _saveFileDataWriter.LoadSaveFile();
-            
-            _saveFileDataWriter.saveFileName = DecideGameDataFileNameBasedOnSlotBeingUsed(GameDataSlot.GameSlot04);
-            gameSlot04 = _saveFileDataWriter.LoadSaveFile();
-            
+            _saveFileDataWriter = new SaveFileDataWriter
+            {
+                saveDataDirectoryPath = Application.persistentDataPath
+            };
+            for (var index = 0; index < gameSaveData.Length; index++)
+            {
+                _saveFileDataWriter.saveFileName = DecideGameDataFileNameBasedOnIndex(index);
+                gameSaveData[index] = _saveFileDataWriter.LoadSaveFile();
+            }
         }
     }
 }

@@ -11,5 +11,6 @@
         GameSlot02,
         GameSlot03,
         GameSlot04,
+        NoSlot,
     }
 }
