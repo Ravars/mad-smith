@@ -14,6 +14,7 @@ namespace MadSmith.Scripts.UI
         private readonly List<UISaveGameSlot> _saveGameSlots = new ();
 
         [SerializeField] private Page confirmDeletePopUp;
+        [SerializeField] private Page hudPage;
         [SerializeField] private MenuController menuController;
 
         [Header("Save slot")] 
@@ -22,14 +23,13 @@ namespace MadSmith.Scripts.UI
         {
             if (!TemporarySaveGameManager.InstanceExists) return;
 
-            for (var index = 0; index < TemporarySaveGameManager.Instance.gameSaveData.Length; index++)
+            for (var index = 0; index < TemporarySaveGameManager.Instance.GameSaveData.Length; index++)
             {
-                var gameSaveData = TemporarySaveGameManager.Instance.gameSaveData[index];
                 UISaveGameSlot saveGameSlot = Instantiate(uiSaveGameSlotPrefab, content.transform);
                 _saveGameSlots.Add(saveGameSlot);
                 saveGameSlot.loadGameCanvas = this;
                 saveGameSlot.gameDataSlotIndex = index;
-                saveGameSlot.LoadSaveSlot();
+                saveGameSlot.GetSaveSlotData();
             }
         }
 
@@ -37,7 +37,7 @@ namespace MadSmith.Scripts.UI
         {
             foreach (var uiSaveGameSlot in _saveGameSlots)
             {
-                uiSaveGameSlot.LoadSaveSlot();
+                uiSaveGameSlot.GetSaveSlotData();
             }
         }
 
@@ -61,6 +61,13 @@ namespace MadSmith.Scripts.UI
             if (!TemporarySaveGameManager.InstanceExists) return;
             TemporarySaveGameManager.Instance.DeleteGame(_selectedSlot);
             UpdateSlots();
+        }
+
+        public void LoadGame(int gameDataSlotIndex)
+        {
+            TemporarySaveGameManager.Instance.LoadGame(gameDataSlotIndex);
+            menuController.PopAllPages();
+            menuController.PushPage(hudPage);
         }
     }
 }

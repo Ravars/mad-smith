@@ -20,7 +20,7 @@ namespace MadSmith.Scripts.UI
         [SerializeField] private TextMeshProUGUI timePlayedText;
         [SerializeField] private TextMeshProUGUI nameText;
 
-        public void LoadSaveSlot()
+        public void GetSaveSlotData()
         {
             if (!TemporarySaveGameManager.InstanceExists)
             {
@@ -31,7 +31,7 @@ namespace MadSmith.Scripts.UI
             _saveFileDataWriter = new SaveFileDataWriter
             {
                 saveDataDirectoryPath = Application.persistentDataPath,
-                saveFileName = TemporarySaveGameManager.Instance.DecideGameDataFileNameBasedOnIndex(gameDataSlotIndex)
+                saveFileName = TemporarySaveGameManager.DecideGameDataFileNameBasedOnIndex(gameDataSlotIndex)
             };
             GameSaveData gameSaveData = TemporarySaveGameManager.Instance.GetGameDataSlotByIndex(gameDataSlotIndex);
             if (gameSaveData is { loaded: true })
@@ -47,12 +47,12 @@ namespace MadSmith.Scripts.UI
 
         public void LoadGameFromGameSlot()
         {
-            TemporarySaveGameManager.Instance.currentGameSlotIndex = gameDataSlotIndex;
-            TemporarySaveGameManager.Instance.LoadGame();
+            loadGameCanvas.LoadGame(gameDataSlotIndex);
         }
 
         public void SetSelectedSlot()
         {
+            if (ReferenceEquals(loadGameCanvas, null)) return;
             loadGameCanvas.SelectSlot(gameDataSlotIndex);
         }
     }

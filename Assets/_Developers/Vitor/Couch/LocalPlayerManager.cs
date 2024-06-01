@@ -46,7 +46,7 @@ namespace _Developers.Vitor.Couch
             _playerInputManager.onPlayerLeft += PlayerInputManagerOnPlayerLeft;
             if (TemporarySaveGameManager.InstanceExists)
             {
-                TemporarySaveGameManager.Instance.localPlayerManager = this;
+                TemporarySaveGameManager.LocalPlayerManager = this;
             }
         }
 
