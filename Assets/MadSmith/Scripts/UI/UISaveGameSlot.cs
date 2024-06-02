@@ -22,7 +22,7 @@ namespace MadSmith.Scripts.UI
 
         public void GetSaveSlotData()
         {
-            if (!TemporarySaveGameManager.InstanceExists)
+            if (!SaveGameManager.InstanceExists)
             {
                 Debug.LogError("SaveGameManager not found");
                 return;
@@ -31,9 +31,9 @@ namespace MadSmith.Scripts.UI
             _saveFileDataWriter = new SaveFileDataWriter
             {
                 saveDataDirectoryPath = Application.persistentDataPath,
-                saveFileName = TemporarySaveGameManager.DecideGameDataFileNameBasedOnIndex(gameDataSlotIndex)
+                saveFileName = SaveGameManager.DecideGameDataFileNameBasedOnIndex(gameDataSlotIndex)
             };
-            GameSaveData gameSaveData = TemporarySaveGameManager.Instance.GetGameDataSlotByIndex(gameDataSlotIndex);
+            GameSaveData gameSaveData = SaveGameManager.Instance.GetGameDataSlotByIndex(gameDataSlotIndex);
             if (gameSaveData is { loaded: true })
             {
                 nameText.text = gameDataSlotIndex.ToString();

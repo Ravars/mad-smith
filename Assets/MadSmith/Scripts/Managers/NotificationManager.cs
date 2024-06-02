@@ -14,6 +14,7 @@ namespace MadSmith.Scripts.Managers
     
     public class NotificationManager : Singleton<NotificationManager>
     {
+        // TODO: Change to a EventSystem (using the ScriptableObject system)
         [SerializeField] private Notification notification;
         public void NewNotification(string text, NotificationType type)
         {

@@ -44,9 +44,9 @@ namespace _Developers.Vitor.Couch
             _gameInput.CouchJoin.Enable();
             _gameInput.CouchJoin.Join.performed += JoinOnPerformed;
             _playerInputManager.onPlayerLeft += PlayerInputManagerOnPlayerLeft;
-            if (TemporarySaveGameManager.InstanceExists)
+            if (SaveGameManager.InstanceExists)
             {
-                TemporarySaveGameManager.LocalPlayerManager = this;
+                SaveGameManager.Instance.localPlayerManager = this;
             }
         }
 

@@ -21,9 +21,9 @@ namespace MadSmith.Scripts.UI
         private int _selectedSlot;
         private void Start()
         {
-            if (!TemporarySaveGameManager.InstanceExists) return;
+            if (!SaveGameManager.InstanceExists) return;
 
-            for (var index = 0; index < TemporarySaveGameManager.Instance.GameSaveData.Length; index++)
+            for (var index = 0; index < SaveGameManager.Instance.gameSaveData.Length; index++)
             {
                 UISaveGameSlot saveGameSlot = Instantiate(uiSaveGameSlotPrefab, content.transform);
                 _saveGameSlots.Add(saveGameSlot);
@@ -58,14 +58,14 @@ namespace MadSmith.Scripts.UI
 
         public void ConfirmDeleteSaveSlot()
         {
-            if (!TemporarySaveGameManager.InstanceExists) return;
-            TemporarySaveGameManager.Instance.DeleteGame(_selectedSlot);
+            if (!SaveGameManager.InstanceExists) return;
+            SaveGameManager.Instance.DeleteGame(_selectedSlot);
             UpdateSlots();
         }
 
         public void LoadGame(int gameDataSlotIndex)
         {
-            TemporarySaveGameManager.Instance.LoadGame(gameDataSlotIndex);
+            SaveGameManager.Instance.LoadGame(gameDataSlotIndex);
             menuController.PopAllPages();
             menuController.PushPage(hudPage);
         }

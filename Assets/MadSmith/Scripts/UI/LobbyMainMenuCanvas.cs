@@ -11,9 +11,9 @@ namespace MadSmith.Scripts.UI
         
         public void btn_NewGame()
         {
-            if (!TemporarySaveGameManager.InstanceExists) return;
+            if (!SaveGameManager.InstanceExists) return;
             
-            bool newGame = TemporarySaveGameManager.Instance.AttemptCreateNewGame();
+            bool newGame = SaveGameManager.Instance.AttemptCreateNewGame();
 
             if (newGame)
             {

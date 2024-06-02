@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -16,7 +17,7 @@ namespace MadSmith.Scripts.Network.Managers
 
         [Header("Auto join options")] 
         [SerializeField] private bool autoJoin = false;
-        [SerializeField] private string ip;
+        [SerializeField] private string ip = "localhost";
         
         public override void Start()
         {
@@ -26,6 +27,7 @@ namespace MadSmith.Scripts.Network.Managers
             // TODO: test this. Maybe use some custom tag to enable auto play
             if (ClonesManager.IsClone())
             {
+                autoHost = false;
                 autoJoin = true;
             }
             if (autoHost)
@@ -33,7 +35,7 @@ namespace MadSmith.Scripts.Network.Managers
                 StartHost();
             }else if (autoJoin)
             {
-                networkAddress = ip;
+                networkAddress = ip == String.Empty ? "localhost" : ip;
                 StartClient();
             }
             #endif
