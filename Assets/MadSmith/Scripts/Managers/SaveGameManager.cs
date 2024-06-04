@@ -3,6 +3,7 @@ using _Developers.Vitor.Couch;
 using IngameDebugConsole;
 using MadSmith.Scripts.GameSaving;
 using MadSmith.Scripts.Utils;
+using ParrelSync;
 using UnityEngine;
 using Utils;
 
@@ -34,7 +35,16 @@ namespace MadSmith.Scripts.Managers
         }
         public static string DecideGameDataFileNameBasedOnIndex(int slotIndex)
         {
-            return "GameSlot" + slotIndex.ToString().PadLeft(2,'0') + ".txt";
+            string suffix = "";
+            
+            #if UNITY_EDITOR
+            if (ClonesManager.IsClone())
+            {
+                suffix = "clone";
+            }
+            #endif
+            
+            return "GameSlot" + slotIndex.ToString().PadLeft(2,'0') + suffix + ".txt";
         }
 
         public GameSaveData GetGameDataSlotByIndex(int index)
