@@ -63,7 +63,6 @@ namespace MadSmith.Scripts.Managers
         }
 
         [ContextMenu("Save Game")]
-        [ConsoleMethod("save","Save game on current slot index")]
         public void SaveGame()
         {
             if (ReferenceEquals(_currentGameSaveData, null))

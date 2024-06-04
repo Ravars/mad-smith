@@ -1121,13 +1121,13 @@ MonoBehaviour:
   postPushAction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1598346932}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
-        m_MethodName: Select
-        m_Mode: 1
+      - m_Target: {fileID: 288087614}
+        m_TargetAssemblyTypeName: MadSmith.Scripts.Systems.MenuController.Page, Assembly-CSharp
+        m_MethodName: Test_SetSelected
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1598346933}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3220,7 +3220,7 @@ PrefabInstance:
     - target: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
         type: 3}
       propertyPath: m_Navigation.m_Mode
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
         type: 3}
@@ -3242,6 +3242,16 @@ PrefabInstance:
       propertyPath: m_Colors.m_NormalColor.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnLeft
+      value: 
+      objectReference: {fileID: 1760157102}
+    - target: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnRight
+      value: 
+      objectReference: {fileID: 1760157102}
     - target: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
         type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
@@ -4198,18 +4208,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1598346930}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1598346932 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
-    type: 3}
-  m_PrefabInstance: {fileID: 1598346930}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1598346933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81fef0563e898f74f87bcb68d10688aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1598346933 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9037114438037242143, guid: 1decd7ebdcd35e14da16105267531809,
@@ -4627,13 +4625,23 @@ PrefabInstance:
     - target: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
         type: 3}
       propertyPath: m_Navigation.m_Mode
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
         type: 3}
       propertyPath: expectedInteractable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnLeft
+      value: 
+      objectReference: {fileID: 1229346434}
+    - target: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnRight
+      value: 
+      objectReference: {fileID: 1229346434}
     - target: {fileID: 3115965222415275741, guid: 1decd7ebdcd35e14da16105267531809,
         type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size

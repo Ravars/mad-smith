@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace MadSmith.Scripts.Systems.MenuController
 {
@@ -188,6 +189,11 @@ private void SlideIn(bool playAudio)
         yield return wait;
 
         _audioSource.enabled = false;
+    }
+
+    public void Test_SetSelected(GameObject select)
+    {
+        EventSystem.current.SetSelectedGameObject(select);
     }
     }
 }
