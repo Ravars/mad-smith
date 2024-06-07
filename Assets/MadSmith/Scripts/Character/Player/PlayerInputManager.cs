@@ -87,7 +87,7 @@ namespace MadSmith.Scripts.Character.Player
                 attackInput = false;
                 
                 //Perform a attack
-                _playerManager.playerInteractionManager.AttemptPerformAttack();
+                _playerManager.playerCombatManager.AttemptPerformAttack();
             }
         }
 

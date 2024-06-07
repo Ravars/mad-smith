@@ -1,0 +1,39 @@
+﻿Items podem ser:
+    Dropados no chão
+    Posicionados nas mesas
+    Carregados pelo jogador
+    
+    
+Mesas:
+    Fornalha
+        Ponto fixo
+    Bigorna
+        Ponto fixo
+    Serra
+        Nao sei, pois talvez tenha uma animação de movimentação do tronco junto com a serra girando
+            Mas nesse caso é so mexer o Parent
+    Moldes
+        Ponto fixo
+    Mesa de trabalho
+        Ter uns pontos posicionados meio rotacionados aleatorio e mala
+            O problema é saber qual posição já tem ou nao tem item
+            Um array de GameObject do tamanho do array de posições?
+            Ou gera pontos aleatorios dentro de um ponto central ?
+    Mesa de encantamento
+        Aceita dois itens e posições diferentes
+           Pergaminho aberto na mesa pode ser parte da mesa
+        Não sei se os "encantamentos" diferentes terão um visual diferentes.
+            Se tiver pode ser so a cor de uma textura
+            
+            
+Interagiveis
+    Mesa
+        Pegar
+        Colocar
+    Items no chao
+        Pegar
+    Interagiveis (Botao, alavanca)
+        Uso unico
+        Uso com timer
+    
+

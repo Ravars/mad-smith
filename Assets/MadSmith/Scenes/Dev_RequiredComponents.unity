@@ -687,6 +687,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5639958571426933579, guid: d02bd6d4bbe56074888b777bd7800d9b,
+        type: 3}
+      propertyPath: onlineScene
+      value: Assets/_Developers/Vitor/Interactable/Interaction.unity
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

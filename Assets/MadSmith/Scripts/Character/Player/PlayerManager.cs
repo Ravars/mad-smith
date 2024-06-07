@@ -10,6 +10,8 @@ namespace MadSmith.Scripts.Character.Player
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerInteractionManager playerInteractionManager;
+        [HideInInspector] public PlayerCombatManager playerCombatManager;
+        [HideInInspector] public PlayerInventoryManager playerInventoryManager;
         public BoolEventChannelSo settingsPanelState;
         public BoolEventChannelSo changeGameStatus;
         
@@ -26,8 +28,7 @@ namespace MadSmith.Scripts.Character.Player
             playerInputManager.InputReader.EnableGameplayInput();
             settingsPanelState.OnEventRaised += SettingsPanelStateOnEventRaised;
         }
-
-        private void SettingsPanelStateOnEventRaised(bool value)
+        private void SettingsPanelStateOnEventRaised(bool value) //TODO: Find a better place
         {
             if (value)
             {
@@ -38,7 +39,6 @@ namespace MadSmith.Scripts.Character.Player
                 playerInputManager.InputReader.EnableGameplayInput();
             }
         }
-
         protected override void Awake()
         {
             base.Awake();
@@ -46,24 +46,17 @@ namespace MadSmith.Scripts.Character.Player
             playerInputManager = GetComponent<PlayerInputManager>();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerInteractionManager = GetComponent<PlayerInteractionManager>();
+            playerCombatManager = GetComponent<PlayerCombatManager>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
             
             // playerLocomotionManager.enabled = false;
             playerInputManager.enabled = false;
         }
-
         protected override void Update()
         {
             base.Update();
             if (!isOwned) return;
             playerLocomotionManager.HandleAllLocomotion();
-        }
-
-        private void OnApplicationFocus(bool hasFocus)
-        {
-            // if (enabled && playerInputManager.InputReader != null)
-            // {
-            //     playerInputManager.InputReader.SetState(hasFocus);
-            // }
         }
     }
 }
