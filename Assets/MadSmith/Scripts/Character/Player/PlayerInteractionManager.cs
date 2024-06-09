@@ -64,17 +64,24 @@ namespace MadSmith.Scripts.Character.Player
 
         public override void FixedUpdate()
         {
-            RaycastHit hit;
-            if (Physics.SphereCast(transform.position, sphereCastRadius, transform.forward * range, out hit, range, layerMask))
+            if (Physics.SphereCast(transform.position, sphereCastRadius, transform.forward * range, out var hit, range, layerMask))
             {
                 if (lastTransformHit != hit.transform.gameObject)
                 {
                     lastTransformHit = hit.transform.gameObject;
+                    if (hit.transform.gameObject.TryGetComponent(out Item item))
+                    {
+                        item.SetStateHighlight(true);
+                    }
                     Debug.Log("Get" + lastTransformHit);
                 }
             }
             else
             {
+                if (lastTransformHit != null && lastTransformHit.gameObject.TryGetComponent(out Item item))
+                {
+                    item.SetStateHighlight(false);
+                }
                 lastTransformHit = null;
             }
         }

@@ -4,15 +4,18 @@ using UnityEngine;
 
 namespace MadSmith.Scripts.Interaction
 {
-    public class Item : MonoBehaviour
+    [DisallowMultipleComponent]
+    public class Item : Interactable
     {
+        [Header("Item config")]
         public BaseItem baseItem;
         [SerializeField] private SphereCollider triggerOnGround;
-        [SerializeField] private Rigidbody rb;
+        private Rigidbody _rb;
 
-        private void Awake()
+        public override void Awake()
         {
-            rb = GetComponent<Rigidbody>();
+            base.Awake();
+            _rb = GetComponent<Rigidbody>();
         }
 
         public void SetStateCollider(bool newState)
@@ -22,7 +25,7 @@ namespace MadSmith.Scripts.Interaction
 
         public void SetStatePhysics(bool newState)
         {
-            rb.isKinematic = !newState;
+            _rb.isKinematic = !newState;
         }
     }
 }
