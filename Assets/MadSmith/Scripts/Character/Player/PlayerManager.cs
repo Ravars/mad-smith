@@ -12,11 +12,19 @@ namespace MadSmith.Scripts.Character.Player
         [HideInInspector] public PlayerInteractionManager playerInteractionManager;
         [HideInInspector] public PlayerCombatManager playerCombatManager;
         [HideInInspector] public PlayerInventoryManager playerInventoryManager;
+        [HideInInspector] public PlayerNetworkManager playerNetworkManager;
         public BoolEventChannelSo settingsPanelState;
         public BoolEventChannelSo changeGameStatus;
         
         [Header("Coop System")]
         [SyncVar] public int deviceId = -1;
+
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+            playerNetworkManager.Init(); //TODO: Verify if there is a better way to "initalize" the states
+        }
+
         public override void OnStartAuthority()
         {
             base.OnStartAuthority();
@@ -25,6 +33,7 @@ namespace MadSmith.Scripts.Character.Player
             playerLocomotionManager.enabled = true;
             characterController.enabled = true; 
             playerInputManager.enabled = true;
+            playerInteractionManager.enabled = true;
             playerInputManager.InputReader.EnableGameplayInput();
             settingsPanelState.OnEventRaised += SettingsPanelStateOnEventRaised;
         }
@@ -48,9 +57,11 @@ namespace MadSmith.Scripts.Character.Player
             playerInteractionManager = GetComponent<PlayerInteractionManager>();
             playerCombatManager = GetComponent<PlayerCombatManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
+            playerNetworkManager = GetComponent<PlayerNetworkManager>();
             
             // playerLocomotionManager.enabled = false;
             playerInputManager.enabled = false;
+            // playerInteractionManager.enabled = false;
         }
         protected override void Update()
         {
@@ -58,5 +69,13 @@ namespace MadSmith.Scripts.Character.Player
             if (!isOwned) return;
             playerLocomotionManager.HandleAllLocomotion();
         }
+
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            if (!isOwned) return;
+            playerInteractionManager.HandleInteraction();
+        }
+        
     }
 }

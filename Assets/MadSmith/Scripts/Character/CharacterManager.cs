@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Character
@@ -48,6 +49,10 @@ namespace MadSmith.Scripts.Character
                     characterNetworkManager.networkRotation,
                     characterNetworkManager.networkRotationSmoothTime);
             }
+        }
+
+        protected virtual void FixedUpdate()
+        {
         }
     }
 }

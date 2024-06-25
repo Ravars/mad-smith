@@ -1,9 +1,10 @@
 ﻿using System;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Interaction
 {
-    public class Interactable : MonoBehaviour
+    public class Interactable : NetworkBehaviour
     {
         [HideInInspector] public bool showEditorButtons = true;
 
@@ -15,8 +16,6 @@ namespace MadSmith.Scripts.Interaction
         {
             SetStateHighlight(false);
         }
-
-
         public void SetStateHighlight(bool newState)
         {
             _currentState = newState;

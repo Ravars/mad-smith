@@ -8,5 +8,8 @@ namespace MadSmith.Scripts.BaseClasses
     {
         public string itemName;
         public Sprite itemImage;
+        public Mesh mesh;
+        public Material material;
+        public Material materialHighlight;
     }
 }

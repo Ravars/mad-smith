@@ -14,7 +14,7 @@ namespace MadSmith.Scripts.Interaction.Editor
             
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Editor Controls", EditorStyles.boldLabel);
-            materialSwitcher.showEditorButtons = EditorGUILayout.Toggle("Show Editor Buttons", materialSwitcher.showEditorButtons);
+            materialSwitcher.showEditorButtons = EditorGUILayout.Toggle("Show Dev tools", materialSwitcher.showEditorButtons);
 
             if (!materialSwitcher.showEditorButtons) return;
             if (GUILayout.Button("Switch Material"))

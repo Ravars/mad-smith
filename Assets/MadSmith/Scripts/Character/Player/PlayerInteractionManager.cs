@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using MadSmith.Scripts.Interaction;
+﻿using MadSmith.Scripts.Interaction;
+using Mirror;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -16,42 +13,33 @@ namespace MadSmith.Scripts.Character.Player
             _playerManager = GetComponent<PlayerManager>();
         }
 
-
         public void AttemptPerformGrab()
         {
             if (_playerManager.playerInventoryManager.IsHoldingItem())
             {
                 Debug.Log("Drop");
-                ReleaseItem();
-                GrabItem();
+                _playerManager.playerNetworkManager.CmdReleaseItem();
             }
-            else
+            
+            if (lastTransformHit != null)
             {
-                Debug.Log("Grab");
-                GrabItem();
+                Debug.Log("Grab else: " + lastTransformHit.name);
+                _playerManager.playerNetworkManager.CmdPickupItem(lastTransformHit);
             }
         }
 
-        private void ReleaseItem()
-        {
-            var item = _playerManager.playerInventoryManager.item;
-            item.transform.SetParent(null);
-            item.transform.SetPositionAndRotation(positionToReleaseItems.position, quaternion.identity);
-            _playerManager.playerInventoryManager.item = null;
-            item.SetStateCollider(true);
-            item.SetStatePhysics(true);
-        }
+        // private void ReleaseItem()
+        // {
+        //     var item = _playerManager.playerNetworkManager.myItem;
+        //     item.transform.SetParent(null);
+        //     item.transform.SetPositionAndRotation(positionToReleaseItems.position, quaternion.identity);
+        //     _playerManager.playerNetworkManager.myItem = null;
+        //     // item.SetStateCollider(true);
+        //     // item.SetStatePhysics(true);
+        // }
 
-        private void GrabItem()
-        {
-            if (ReferenceEquals(lastTransformHit, null)) return;
-            if (!lastTransformHit.TryGetComponent(out Item item)) return;
-            item.transform.parent = rightHand;
-            item.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            item.SetStateCollider(false);
-            item.SetStatePhysics(false);
-            _playerManager.playerInventoryManager.item = item;
-        }
+        
+
         
         
         #region Tests with SphereCast
@@ -62,7 +50,7 @@ namespace MadSmith.Scripts.Character.Player
 
         
 
-        public override void FixedUpdate()
+        public void HandleInteraction()
         {
             if (Physics.SphereCast(transform.position, sphereCastRadius, transform.forward * range, out var hit, range, layerMask))
             {

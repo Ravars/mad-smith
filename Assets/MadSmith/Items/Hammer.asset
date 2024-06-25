@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17c97c641425498ea43cbb6dba6e7133, type: 3}
-  m_Name: Sword
+  m_Name: Hammer
   m_EditorClassIdentifier: 
-  itemName: Sword
+  itemName: Hammer
   itemImage: {fileID: 21300000, guid: 05c7216c78d4dd34ebe2bac9c1e274d7, type: 3}
+  mesh: {fileID: -8918972964667141905, guid: 6df0de35f36c9244ea520bdd1d8f11a5, type: 3}
+  material: {fileID: 2100000, guid: 9746631089625e5478bda0bde9e63cda, type: 2}
+  materialHighlight: {fileID: 2100000, guid: 1fb2f38a9b6c7874583edff834f3f9ec, type: 2}

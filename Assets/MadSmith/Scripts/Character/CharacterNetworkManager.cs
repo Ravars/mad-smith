@@ -18,7 +18,7 @@ namespace MadSmith.Scripts.Character
         [Header("Animator")] 
         [SyncVar] public bool isMoving;
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             _characterManager = GetComponent<CharacterManager>();
         }
@@ -27,7 +27,6 @@ namespace MadSmith.Scripts.Character
         [Command] //ServerRpc
         public void NotifyTheServerOfActionAnimation(uint clientId, string animationId, bool applyRootMotion)
         {
-            // Debug.Log("Command:" + netId);
             if (isServer)
             {
                 PlayActionAnimationForAllClients(clientId, animationId, applyRootMotion);
@@ -35,7 +34,7 @@ namespace MadSmith.Scripts.Character
         }
 
         [ClientRpc]
-        public void PlayActionAnimationForAllClients(uint clientId, string animationId, bool applyRootMotion)
+        private void PlayActionAnimationForAllClients(uint clientId, string animationId, bool applyRootMotion)
         {
             PerformActionAnimationFromServer(animationId, applyRootMotion);
         }
