@@ -24,23 +24,9 @@ namespace MadSmith.Scripts.Character.Player
             if (lastTransformHit != null)
             {
                 Debug.Log("Grab else: " + lastTransformHit.name);
-                _playerManager.playerNetworkManager.CmdPickupItem(lastTransformHit);
+                _playerManager.playerNetworkManager.CmdAttemptPickupItem(lastTransformHit);
             }
         }
-
-        // private void ReleaseItem()
-        // {
-        //     var item = _playerManager.playerNetworkManager.myItem;
-        //     item.transform.SetParent(null);
-        //     item.transform.SetPositionAndRotation(positionToReleaseItems.position, quaternion.identity);
-        //     _playerManager.playerNetworkManager.myItem = null;
-        //     // item.SetStateCollider(true);
-        //     // item.SetStatePhysics(true);
-        // }
-
-        
-
-        
         
         #region Tests with SphereCast
         [Range(0.1f, 1f)] public float sphereCastRadius;
@@ -61,12 +47,11 @@ namespace MadSmith.Scripts.Character.Player
                     {
                         item.SetStateHighlight(true);
                     }
-                    Debug.Log("Get" + lastTransformHit);
                 }
             }
             else
             {
-                if (lastTransformHit != null && lastTransformHit.gameObject.TryGetComponent(out Item item))
+                if (lastTransformHit != null && lastTransformHit.TryGetComponent(out Item item))
                 {
                     item.SetStateHighlight(false);
                 }
@@ -78,10 +63,9 @@ namespace MadSmith.Scripts.Character.Player
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireSphere(transform.position, range);
-        
-            RaycastHit hit;
+
             Vector3 sphereCastOrigin = transform.position + transform.forward * (sphereCastRadius + 0.01f);
-            if (Physics.SphereCast(sphereCastOrigin, sphereCastRadius, transform.forward * range, out hit, range, layerMask))
+            if (Physics.SphereCast(sphereCastOrigin, sphereCastRadius, transform.forward * range, out var hit, range, layerMask))
             {
                 Gizmos.color = Color.green;
                 Vector3 sphereCastMidpoint = transform.position + (transform.forward * hit.distance);

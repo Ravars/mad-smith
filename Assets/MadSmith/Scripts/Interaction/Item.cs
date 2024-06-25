@@ -44,62 +44,9 @@ namespace MadSmith.Scripts.Interaction
         {
             transform.position = newPosition;
         }
-        
-        private void UpdateMesh()
-        {
-            if (itemMeshFilter != null && itemMeshRender != null && baseItem != null)
-            {
-                itemMeshFilter.mesh = baseItem.mesh;
-                itemMeshRender.material = baseItem.material;
-            }
-        }
-        //
-        // [SyncVar(hook = nameof(OnStateChange))] private bool _state = true;
-        //
-        //
-        // public override void Awake()
-        // {
-        //     base.Awake();
-        //     _rb = GetComponent<Rigidbody>();
-        //     itemMeshFilter = GetComponentInChildren<MeshFilter>();
-        //     itemMeshRender = GetComponentInChildren<MeshRenderer>();
-        // }
-        //
-        // public void SetStateCollider(bool newState)
-        // {
-        //     triggerOnGround.enabled = newState;
-        // }
-        //
-        // public void SetStatePhysics(bool newState)
-        // {
-        //     _rb.isKinematic = !newState;
-        // }
-        //
-        //
-        // [Server]
-        // public void SetAvailable(bool state)
-        // {
-        //     _isAvailable = state;
-        //     SetStatePhysics(state);
-        //     SetStateCollider(state);
-        // }
-        //
-        //
-        // [Server]
-        // public void SetState(bool state)
-        // {
-        //     _state = state;
-        // }
-        //
         private void OnIsAvailableChange(bool oldState, bool newState)
         {
             itemMeshRender.enabled = newState;
         }
-        // private void OnStateChange(bool oldState, bool newState)
-        // {
-        //     itemMeshRender.enabled = newState;
-        //     _rb.isKinematic = !newState;
-        //     // itemMeshFilter.
-        // }
     }
 }
