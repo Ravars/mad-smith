@@ -7,6 +7,7 @@ namespace MadSmith.Scripts.Character
     {
         private CharacterManager _characterManager;
         private static readonly int IsMovingAnimation = Animator.StringToHash("IsMoving");
+        private static readonly int IsAimingAnimation = Animator.StringToHash("IsAiming");
         private float _isMoving;
         protected virtual void Awake()
         {
@@ -18,14 +19,25 @@ namespace MadSmith.Scripts.Character
             _characterManager.animator.SetBool(IsMovingAnimation, isMoving);
         }
 
-        public virtual void PlayTargetActionAnimation(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, float normalizedTransitionDuration = 0.2f)
+        public void UpdateAnimatorAimingParameters(bool isAiming)
+        {
+            _characterManager.animator.SetBool(IsAimingAnimation, isAiming);
+        }
+
+        public virtual void PlayTargetActionAnimation(string targetAnimation, 
+            bool isPerformingAction, 
+            bool applyRootMotion = true, 
+            float normalizedTransitionDuration = 0.2f,
+            bool canMove = false,
+            bool canRotate = false)
         {
             _characterManager.applyRootMotion = applyRootMotion;
             _characterManager.animator.CrossFade(targetAnimation, normalizedTransitionDuration);
             // Used to stop starting animations in mid of another one
             _characterManager.isPerformingAction = isPerformingAction;
-            // Debug.Log(_characterManager.characterNetworkManager.netId);
             _characterManager.characterNetworkManager.NotifyTheServerOfActionAnimation(_characterManager.characterNetworkManager.netId, targetAnimation, applyRootMotion);
+            _characterManager.canMove = canMove;
+            _characterManager.canRotate = canRotate;
         }
     }
 }

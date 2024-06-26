@@ -419,7 +419,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9088773079821571011
 RectTransform:
   m_ObjectHideFlags: 0
@@ -574,6 +574,8 @@ MonoBehaviour:
   isPerformingAction: 0
   isGrounded: 1
   applyRootMotion: 0
+  canMove: 0
+  canRotate: 0
   playerInputManager: {fileID: 0}
   playerLocomotionManager: {fileID: 4130287881607187964}
   playerAnimatorManager: {fileID: 0}
@@ -601,6 +603,7 @@ MonoBehaviour:
   dashInput: 0
   grabInput: 0
   attackInput: 0
+  aimInput: 0
   <InputReader>k__BackingField: {fileID: 11400000, guid: 17ccbc21c3c0a5e4d99ff0e44401269a,
     type: 2}
 --- !u!114 &4130287881607187964
@@ -626,6 +629,7 @@ MonoBehaviour:
   groundedYVelocity: -20
   fallStartYVelocity: -5
   isMoving: 0
+  isAiming: 0
 --- !u!114 &-8740632488487949121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,14 +654,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5875a6789f4e5e96d5b398c86ab7ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHand: {fileID: 9044414776669229331}
   positionToReleaseItems: {fileID: 8751156276199453432}
   sphereCastRadius: 0
   range: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 128
-  lastTransformHit: {fileID: 0}
 --- !u!114 &-7444551039939600786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,6 +707,7 @@ MonoBehaviour:
   networkPositionSmoothTime: 0.1
   networkRotationSmoothTime: 0.1
   isMoving: 0
+  isAiming: 0
   myItem: {fileID: 0}
 --- !u!114 &388298833050187735
 MonoBehaviour:
@@ -4315,12 +4318,6 @@ MonoBehaviour:
 --- !u!4 &6869904232892908753 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b6dce885c7f6c324892164d37153f04d,
-    type: 3}
-  m_PrefabInstance: {fileID: 6403121400662827834}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &9044414776669229331 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -6532396849450683863, guid: b6dce885c7f6c324892164d37153f04d,
     type: 3}
   m_PrefabInstance: {fileID: 6403121400662827834}
   m_PrefabAsset: {fileID: 0}

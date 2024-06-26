@@ -11,6 +11,7 @@ namespace MadSmith.Scripts.Character.Player
         [SerializeField] private bool dashInput = false;
         [SerializeField] private bool grabInput = false;
         [SerializeField] private bool attackInput = false;
+        [SerializeField] private bool aimInput = false;
         [field:SerializeField] public InputReader InputReader { get; private set; }
         // public GameInput GameInput { get; set; }
         protected override void Awake()
@@ -30,6 +31,8 @@ namespace MadSmith.Scripts.Character.Player
                 InputReader.MenuPauseEvent += InputReaderOnMenuPauseEvent;
                 InputReader.GrabEvent += InputReaderOnGrabEvent;
                 InputReader.AttackEvent += InputReaderOnAttackEvent;
+                InputReader.AimEvent += InputReaderOnAimEvent;
+                InputReader.AimCanceledEvent += InputReaderOnAimCanceledEvent;
             }
         }
         private void InputReaderOnMenuPauseEvent(int deviceId)
@@ -49,6 +52,9 @@ namespace MadSmith.Scripts.Character.Player
                 InputReader.DashEvent -= InputReaderOnDashEvent;
                 InputReader.MenuPauseEvent -= InputReaderOnMenuPauseEvent;
                 InputReader.GrabEvent -= InputReaderOnGrabEvent;
+                InputReader.AttackEvent -= InputReaderOnAttackEvent;
+                InputReader.AimEvent -= InputReaderOnAimEvent;
+                InputReader.AimCanceledEvent -= InputReaderOnAimCanceledEvent;
             }
         }
         protected override void Update()
@@ -57,6 +63,7 @@ namespace MadSmith.Scripts.Character.Player
             HandleDashInput();
             HandleGrabInput();
             HandleAttackInput();
+            HandleAimingInput();
         }
         private void HandleDashInput()
         {
@@ -82,12 +89,26 @@ namespace MadSmith.Scripts.Character.Player
 
         private void HandleAttackInput()
         {
-            if (attackInput)
+
+            if (attackInput && _playerManager.playerLocomotionManager.isAiming)
+            {
+                attackInput = false;
+                _playerManager.playerLocomotionManager.AttemptThrow();
+            } else if (attackInput)
             {
                 attackInput = false;
                 
                 //Perform a attack
                 _playerManager.playerCombatManager.AttemptPerformAttack();
+            }
+        }
+
+        private void HandleAimingInput()
+        {
+            if (aimInput)
+            {
+                aimInput = false;
+                _playerManager.playerLocomotionManager.AttemptPerformAiming();
             }
         }
 
@@ -116,6 +137,19 @@ namespace MadSmith.Scripts.Character.Player
         {
             if (deviceId != _playerManager.deviceId) return;
             attackInput = true;
+        }
+
+        private void InputReaderOnAimEvent(int deviceId)
+        {
+            if (deviceId != _playerManager.deviceId) return;
+            aimInput = true;
+        }
+        private void InputReaderOnAimCanceledEvent(int deviceId)
+        {
+            if (deviceId != _playerManager.deviceId) return;
+            aimInput = false;
+            _playerManager.playerLocomotionManager.isAiming = false;
+            _playerManager.playerAnimatorManager.UpdateAnimatorAimingParameters(false);
         }
 
         #endregion

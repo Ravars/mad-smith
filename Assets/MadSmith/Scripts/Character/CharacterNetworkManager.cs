@@ -17,6 +17,7 @@ namespace MadSmith.Scripts.Character
 
         [Header("Animator")] 
         [SyncVar] public bool isMoving;
+        [SyncVar] public bool isAiming;
 
         protected virtual void Awake()
         {

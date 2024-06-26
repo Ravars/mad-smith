@@ -54,5 +54,11 @@ namespace MadSmith.Scripts.Interaction
         {
             itemMeshRender.enabled = newState;
         }
+
+        [Server]
+        public void AddForce(float impulseForce, Vector3 direction)
+        {
+            _rb.AddForce(impulseForce * direction, ForceMode.Impulse);
+        }
     }
 }

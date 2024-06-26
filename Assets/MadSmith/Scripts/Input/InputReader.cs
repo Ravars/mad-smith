@@ -71,6 +71,8 @@ namespace MadSmith.Scripts.Input
         public event UnityAction<int> AttackEvent = delegate { };
         public event UnityAction<int> GrabEvent = delegate { };
         public event UnityAction<int> DashEvent = delegate { };
+        public event UnityAction<int> AimEvent = delegate { };
+        public event UnityAction<int> AimCanceledEvent = delegate { };
         
         //Couch Join
         public event UnityAction<int> JoinEvent = delegate { };
@@ -127,8 +129,19 @@ namespace MadSmith.Scripts.Input
                 DashEvent?.Invoke(context.control.device.deviceId);
             }
         }
-        
-        
+
+        public void OnAim(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                AimEvent?.Invoke(context.control.device.deviceId);
+            }else if (context.canceled)
+            {
+                AimCanceledEvent?.Invoke(context.control.device.deviceId);
+            }
+
+        }
+
         #endregion
 
         #region Join Couch

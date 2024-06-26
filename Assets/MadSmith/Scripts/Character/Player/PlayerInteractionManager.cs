@@ -40,6 +40,10 @@ namespace MadSmith.Scripts.Character.Player
 
         public void AttemptPerformGrab()
         {
+            //TODO: test this two lines
+            if (_playerManager.isPerformingAction) return;
+            if (!_playerManager.isGrounded) return;
+            
             if (_playerManager.playerInventoryManager.IsHoldingItem())
             {
                 Debug.Log("Drop");
@@ -52,6 +56,8 @@ namespace MadSmith.Scripts.Character.Player
                 _playerManager.playerNetworkManager.CmdAttemptPickupItem(_lastTransformHit);
             }
         }
+
+        
         
         #region Tests with SphereCast
         public void HandleInteraction()

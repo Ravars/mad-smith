@@ -16,6 +16,8 @@ namespace MadSmith.Scripts.Character
         public bool isPerformingAction = false;
         public bool isGrounded = true;
         public bool applyRootMotion = false;
+        public bool canMove = false;
+        public bool canRotate = false;
         
         private static readonly int IsGroundedAnimation = Animator.StringToHash("IsGrounded");
 

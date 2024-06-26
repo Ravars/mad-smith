@@ -56,6 +56,17 @@ namespace MadSmith.Scripts.Character.Player
             _playerManager.playerNetworkManager.myItem = null;
             _playerManager.playerInteractionManager.UpdateMesh();
         }
+
+        [Command]
+        public void CmdThrowItem()
+        {
+            Item item = _playerManager.playerNetworkManager.myItem.GetComponent<Item>();
+            item.SetPosition(_playerManager.playerInteractionManager.positionToReleaseItems.position);
+            item.SetRotation(Quaternion.identity);
+            item.SetAvailable(true);
+            item.AddForce(10, transform.forward);
+            RpcFakeDetachItem();
+        }
         
     }
 }

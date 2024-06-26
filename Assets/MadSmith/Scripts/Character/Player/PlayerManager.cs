@@ -59,15 +59,14 @@ namespace MadSmith.Scripts.Character.Player
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerNetworkManager = GetComponent<PlayerNetworkManager>();
             
-            // playerLocomotionManager.enabled = false;
             playerInputManager.enabled = false;
-            // playerInteractionManager.enabled = false;
         }
         protected override void Update()
         {
             base.Update();
             if (!isOwned) return;
             playerLocomotionManager.HandleAllLocomotion();
+            // playerVfxManager.HandleAiming();
         }
 
         protected override void FixedUpdate()

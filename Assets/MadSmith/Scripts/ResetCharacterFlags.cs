@@ -12,6 +12,8 @@ public class ResetCharacterFlags : StateMachineBehaviour
         if (!animator.TryGetComponent(out _characterManager)) return;
         _characterManager.isPerformingAction = false;
         _characterManager.applyRootMotion = false;
+        _characterManager.canMove = true;
+        _characterManager.canRotate = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
