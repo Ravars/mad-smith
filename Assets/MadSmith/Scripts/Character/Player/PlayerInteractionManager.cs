@@ -8,9 +8,34 @@ namespace MadSmith.Scripts.Character.Player
     public class PlayerInteractionManager : CharacterInteractionManager
     {
         private PlayerManager _playerManager;
+        
+        [Header("Interaction Settings")]
+        [Range(0.1f, 1f)] public float sphereCastRadius = 0.1f;
+        [Range(1f, 100f)] public float range = 1;
+        [SerializeField] private LayerMask layerMask;
+        private GameObject _lastTransformHit = null;
+        
+        [Header("Slots Holder")]
+        [ShowInInspector] private SlotHolder _rightHand;
+        // [ShowInInspector] private SlotHolder _doubleHand;
+        
+        
         private void Awake()
         {
             _playerManager = GetComponent<PlayerManager>();
+            SlotHolder[] itemSlotHolder = GetComponentsInChildren<SlotHolder>();
+            foreach (var slotHolder in itemSlotHolder) //TODO: Maybe change to a Switch later
+            {
+                if (slotHolder.itemSlotHolderCategory == ItemSlotHolderCategory.Hand)
+                {
+                    _rightHand = slotHolder;
+                }
+                // else if (slotHolder.itemSlotHolderCategory == ItemSlotHolderCategory.DoubleHand)
+                // {
+                //     _doubleHand = slotHolder;
+                // }
+                
+            }
         }
 
         public void AttemptPerformGrab()
@@ -21,28 +46,21 @@ namespace MadSmith.Scripts.Character.Player
                 _playerManager.playerNetworkManager.CmdReleaseItem();
             }
             
-            if (lastTransformHit != null)
+            if (_lastTransformHit != null)
             {
-                Debug.Log("Grab else: " + lastTransformHit.name);
-                _playerManager.playerNetworkManager.CmdAttemptPickupItem(lastTransformHit);
+                Debug.Log("Grab else: " + _lastTransformHit.name);
+                _playerManager.playerNetworkManager.CmdAttemptPickupItem(_lastTransformHit);
             }
         }
         
         #region Tests with SphereCast
-        [Range(0.1f, 1f)] public float sphereCastRadius;
-        [Range(1f, 100f)] public float range = 1;
-        [SerializeField] private LayerMask layerMask;
-        public GameObject lastTransformHit = null;
-
-        
-
         public void HandleInteraction()
         {
             if (Physics.SphereCast(transform.position, sphereCastRadius, transform.forward * range, out var hit, range, layerMask))
             {
-                if (lastTransformHit != hit.transform.gameObject)
+                if (_lastTransformHit != hit.transform.gameObject)
                 {
-                    lastTransformHit = hit.transform.gameObject;
+                    _lastTransformHit = hit.transform.gameObject;
                     if (hit.transform.gameObject.TryGetComponent(out Item item))
                     {
                         item.SetStateHighlight(true);
@@ -51,12 +69,35 @@ namespace MadSmith.Scripts.Character.Player
             }
             else
             {
-                if (lastTransformHit != null && lastTransformHit.TryGetComponent(out Item item))
+                if (_lastTransformHit != null && _lastTransformHit.TryGetComponent(out Item item))
                 {
                     item.SetStateHighlight(false);
                 }
-                lastTransformHit = null;
+                _lastTransformHit = null;
             }
+        }
+
+        public void UpdateMesh()
+        {
+            SlotHolder slotHolder = DecideSlotHolder();
+            
+            if (_playerManager.playerNetworkManager.myItem != null && _playerManager.playerNetworkManager.myItem.TryGetComponent(out Item item))
+            {
+                slotHolder.meshRenderer.material = item.baseItem.material;
+                slotHolder.meshFilter.mesh = item.baseItem.mesh;
+            }
+            else
+            {
+                //NOTE: Use the last used or clear them all
+                slotHolder.meshRenderer.material = null;
+                slotHolder.meshFilter.mesh = null;
+            }
+        }
+
+        private SlotHolder DecideSlotHolder()
+        {
+            //TODO: Decide witch slot to use based on item used, rightHand or doubleHand
+            return _rightHand;
         }
 
         

@@ -7,12 +7,11 @@ namespace MadSmith.Scripts.Character.Player
 {
     public class PlayerNetworkManager : CharacterNetworkManager
     {
+        
         private PlayerManager _playerManager;
-        
+        [Header("Inventory")]
         [SyncVar] public GameObject myItem;
-        
-        public MeshRenderer handMeshRenderer;
-        public MeshFilter handMeshFilter;
+        // [SyncVar] public Interactable CurrentInteractable;
 
         protected override void Awake()
         {
@@ -22,7 +21,7 @@ namespace MadSmith.Scripts.Character.Player
 
         public void Init()
         {
-            UpdateMesh();
+            _playerManager.playerInteractionManager.UpdateMesh();
         }
         [Command]
         public void CmdAttemptPickupItem(GameObject itemGameObject)
@@ -39,6 +38,7 @@ namespace MadSmith.Scripts.Character.Player
         {
             Item item = _playerManager.playerNetworkManager.myItem.GetComponent<Item>();
             item.SetPosition(_playerManager.playerInteractionManager.positionToReleaseItems.position);
+            item.SetRotation(Quaternion.identity);
             item.SetAvailable(true);
             RpcFakeDetachItem();
         }
@@ -47,27 +47,15 @@ namespace MadSmith.Scripts.Character.Player
         private void RpcFakeAttachItem(GameObject itemGameObject)
         {   
             _playerManager.playerNetworkManager.myItem = itemGameObject;
-            UpdateMesh();
+            _playerManager.playerInteractionManager.UpdateMesh();
         }
 
         [ClientRpc]
         private void RpcFakeDetachItem()
         {
             _playerManager.playerNetworkManager.myItem = null;
-            UpdateMesh();
+            _playerManager.playerInteractionManager.UpdateMesh();
         }
-        private void UpdateMesh()
-        {
-            if (myItem != null && myItem.TryGetComponent(out Item item))
-            {
-                handMeshRenderer.material = item.baseItem.material;
-                handMeshFilter.mesh = item.baseItem.mesh;
-            }
-            else
-            {
-                handMeshRenderer.material = null;
-                handMeshFilter.mesh = null;
-            }
-        }
+        
     }
 }

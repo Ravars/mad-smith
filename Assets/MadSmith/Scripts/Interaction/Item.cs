@@ -44,6 +44,12 @@ namespace MadSmith.Scripts.Interaction
         {
             transform.position = newPosition;
         }
+
+        [Server]
+        public void SetRotation(Quaternion newRotation)
+        {
+            transform.rotation = newRotation;
+        }
         private void OnIsAvailableChange(bool oldState, bool newState)
         {
             itemMeshRender.enabled = newState;

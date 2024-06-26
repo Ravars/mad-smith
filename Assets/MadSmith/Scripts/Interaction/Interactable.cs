@@ -10,26 +10,26 @@ namespace MadSmith.Scripts.Interaction
 
         [Header("Highlight properties")] 
         [SerializeField] private HighlightObject[] highlightObjects;
-        private bool _currentState;
+        private bool _currentHighlightState;
 
         public virtual void Awake()
         {
             SetStateHighlight(false);
         }
-        public void SetStateHighlight(bool newState)
+        public virtual void SetStateHighlight(bool newState)
         {
-            _currentState = newState;
+            _currentHighlightState = newState;
             foreach (var highlightObject in highlightObjects)
             {
                 highlightObject.meshRenderer.material = newState ? highlightObject.highlightMaterial: highlightObject.originalMaterial;
             }
         }
-        public void SwitchMaterial()
+        public virtual void SwitchMaterial()
         {
-            _currentState = !_currentState;
+            _currentHighlightState = !_currentHighlightState;
             foreach (var highlightObject in highlightObjects)
             {
-                highlightObject.meshRenderer.material = _currentState ? highlightObject.highlightMaterial: highlightObject.originalMaterial;
+                highlightObject.meshRenderer.material = _currentHighlightState ? highlightObject.highlightMaterial: highlightObject.originalMaterial;
             }
         }
     }

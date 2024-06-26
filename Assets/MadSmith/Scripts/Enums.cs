@@ -13,4 +13,11 @@
         GameSlot04,
         NoSlot,
     }
+
+    public enum ItemSlotHolderCategory
+    {
+        Hand,
+        DoubleHand,
+        Table,
+    }
 }
