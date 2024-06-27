@@ -1,12 +1,12 @@
 ﻿using System;
 using MadSmith.Scripts.BaseClasses;
+using MadSmith.Scripts.Character.Player;
 using UnityEngine;
 using Mirror;
 
 namespace MadSmith.Scripts.Interaction
 {
     [DisallowMultipleComponent]
-    [ExecuteInEditMode]
     public class Item : Interactable
     {
         [Header("Item config")]
@@ -20,6 +20,11 @@ namespace MadSmith.Scripts.Interaction
         [SyncVar(hook = nameof(OnIsAvailableChange))]
         private bool _isAvailable = true;
 
+        [SyncVar] 
+        private bool _thrown = false;
+
+        [SerializeField] private float thrownDuration = 1.0f;
+        private float _thrownTimer;
         public override void Awake()
         {
             base.Awake();
@@ -31,12 +36,29 @@ namespace MadSmith.Scripts.Interaction
             return _isAvailable;
         }
 
+        public bool IsThrown()
+        {
+            return _thrown;
+        }
+
         [Server]
         public void SetAvailable(bool state)
         {
             _isAvailable = state;
             _rb.isKinematic = !state;
             triggerOnGround.enabled = state;
+        }
+
+        [Server]
+        public void SetThrown(bool state)
+        {
+            _thrown = state;
+        }
+
+        [Server]
+        public void StartThrownTimer()
+        {
+            _thrownTimer = thrownDuration;
         }
 
         [Server]
@@ -59,6 +81,36 @@ namespace MadSmith.Scripts.Interaction
         public void AddForce(float impulseForce, Vector3 direction)
         {
             _rb.AddForce(impulseForce * direction, ForceMode.Impulse);
+        }
+
+        [ServerCallback]
+        private void Update()
+        {
+            if (!_thrown) return;
+            
+            _thrownTimer -= Time.deltaTime;
+            if (_thrownTimer <= 0f)
+            {
+                SetThrown(false);
+            }
+        }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            if (isServer)
+            {
+                if (_thrown && other.gameObject.CompareTag("Player"))
+                {
+                    other.GetComponent<PlayerNetworkManager>().CmdAttemptPickupThrownItem(gameObject);
+                    SetThrown(false);
+                }
+                // else if(other.gameObject.CompareTag("Tables")){}
+                else if (other.gameObject.CompareTag("Environment"))
+                {
+                    SetThrown(false);
+                }
+                
+            }
         }
     }
 }

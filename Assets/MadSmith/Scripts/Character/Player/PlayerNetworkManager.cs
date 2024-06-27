@@ -33,6 +33,17 @@ namespace MadSmith.Scripts.Character.Player
             RpcFakeAttachItem(itemGameObject);
         }
 
+        [Command(requiresAuthority = false)]
+        public void CmdAttemptPickupThrownItem(GameObject itemGameObject)
+        {
+            if (itemGameObject == null) return;
+            if (_playerManager.playerInventoryManager.IsHoldingItem()) return;
+            if (!itemGameObject.TryGetComponent(out Item item) || !item.IsAvailable()) return;
+            
+            item.SetAvailable(false);
+            RpcFakeAttachItem(itemGameObject);
+        }
+
         [Command]
         public void CmdReleaseItem()
         {
@@ -64,6 +75,8 @@ namespace MadSmith.Scripts.Character.Player
             item.SetPosition(_playerManager.playerInteractionManager.positionToReleaseItems.position);
             item.SetRotation(Quaternion.identity);
             item.SetAvailable(true);
+            item.StartThrownTimer();
+            item.SetThrown(true);
             item.AddForce(10, transform.forward);
             RpcFakeDetachItem();
         }
