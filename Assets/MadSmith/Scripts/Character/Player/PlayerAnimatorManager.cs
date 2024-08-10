@@ -21,5 +21,12 @@ namespace MadSmith.Scripts.Character.Player
                 _playerManager.transform.rotation *= _playerManager.animator.deltaRotation;
             }
         }
+
+        public override void AnimationAttackEvent()
+        {
+            if (!isOwned) return;
+            base.AnimationAttackEvent();
+            _playerManager.playerCombatManager.CastAttackHitBox();
+        }
     }
 }

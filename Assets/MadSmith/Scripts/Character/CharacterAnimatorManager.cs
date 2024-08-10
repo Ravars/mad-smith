@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MadSmith.Scripts.Character
 {
-    public class CharacterAnimatorManager : MonoBehaviour
+    public class CharacterAnimatorManager : NetworkBehaviour
     {
         private CharacterManager _characterManager;
         private static readonly int IsMovingAnimation = Animator.StringToHash("IsMoving");
@@ -35,9 +35,14 @@ namespace MadSmith.Scripts.Character
             _characterManager.animator.CrossFade(targetAnimation, normalizedTransitionDuration);
             // Used to stop starting animations in mid of another one
             _characterManager.isPerformingAction = isPerformingAction;
-            _characterManager.characterNetworkManager.NotifyTheServerOfActionAnimation(_characterManager.characterNetworkManager.netId, targetAnimation, applyRootMotion);
+            _characterManager.characterNetworkManager.CmdNotifyTheServerOfActionAnimation(_characterManager.characterNetworkManager.netId, targetAnimation, applyRootMotion);
             _characterManager.canMove = canMove;
             _characterManager.canRotate = canRotate;
+        }
+
+        public virtual void AnimationAttackEvent()
+        {
+            
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
+using _Developers.Vitor.Interactable;
 using MadSmith.Scripts.BaseClasses;
 using MadSmith.Scripts.Character.Player;
 using UnityEngine;
 using Mirror;
+
 
 namespace MadSmith.Scripts.Interaction
 {
@@ -95,6 +97,7 @@ namespace MadSmith.Scripts.Interaction
             }
         }
         
+        [ServerCallback]
         private void OnTriggerEnter(Collider other)
         {
             if (isServer)

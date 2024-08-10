@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace MadSmith.Scripts.Character
     public class CharacterNetworkManager : NetworkBehaviour
     {
         private CharacterManager _characterManager;
-        
+
         [Header("Position")] 
         [SyncVar] public Vector3 networkPosition;
         [SyncVar] public Quaternion networkRotation;
@@ -24,18 +25,17 @@ namespace MadSmith.Scripts.Character
             _characterManager = GetComponent<CharacterManager>();
         }
 
-
         [Command] //ServerRpc
-        public void NotifyTheServerOfActionAnimation(uint clientId, string animationId, bool applyRootMotion)
+        public void CmdNotifyTheServerOfActionAnimation(uint clientId, string animationId, bool applyRootMotion)
         {
             if (isServer)
             {
-                PlayActionAnimationForAllClients(clientId, animationId, applyRootMotion);
+                RpcPlayActionAnimationForAllClients(clientId, animationId, applyRootMotion);
             }
         }
 
         [ClientRpc]
-        private void PlayActionAnimationForAllClients(uint clientId, string animationId, bool applyRootMotion)
+        private void RpcPlayActionAnimationForAllClients(uint clientId, string animationId, bool applyRootMotion)
         {
             PerformActionAnimationFromServer(animationId, applyRootMotion);
         }

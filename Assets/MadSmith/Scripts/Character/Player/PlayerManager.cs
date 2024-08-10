@@ -22,7 +22,7 @@ namespace MadSmith.Scripts.Character.Player
         public override void OnStartClient()
         {
             base.OnStartClient();
-            playerNetworkManager.Init(); //TODO: Verify if there is a better way to "initalize" the states
+            Init(); //TODO: Verify if there is a better way to "initalize" the states
         }
 
         public override void OnStartAuthority()
@@ -33,11 +33,10 @@ namespace MadSmith.Scripts.Character.Player
             playerLocomotionManager.enabled = true;
             characterController.enabled = true; 
             playerInputManager.enabled = true;
-            playerInteractionManager.enabled = true;
             playerInputManager.InputReader.EnableGameplayInput();
             settingsPanelState.OnEventRaised += SettingsPanelStateOnEventRaised;
         }
-        private void SettingsPanelStateOnEventRaised(bool value) //TODO: Find a better place
+        public void SettingsPanelStateOnEventRaised(bool value)
         {
             if (value)
             {

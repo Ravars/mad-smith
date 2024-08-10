@@ -571,11 +571,16 @@ MonoBehaviour:
   characterController: {fileID: 3611395894299333542}
   animator: {fileID: 0}
   characterNetworkManager: {fileID: 0}
+  characterAnimatorManager: {fileID: 0}
+  characterCombatManager: {fileID: 0}
   isPerformingAction: 0
   isGrounded: 1
   applyRootMotion: 0
   canMove: 0
   canRotate: 0
+  isDead: 0
+  currentHealth: 0
+  maxHealth: 2
   playerInputManager: {fileID: 0}
   playerLocomotionManager: {fileID: 4130287881607187964}
   playerAnimatorManager: {fileID: 0}
@@ -642,6 +647,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8d17011515459da3a369724df22a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!114 &2213197895432810624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,8 +680,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ab57ea7a3847d3840ed869a42b5f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 50
-  maxHealth: 50
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  meleeAttackRadius: 1
+  meleeAttackLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &6721721895259964204
 MonoBehaviour:
   m_ObjectHideFlags: 0

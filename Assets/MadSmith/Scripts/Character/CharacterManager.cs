@@ -10,6 +10,8 @@ namespace MadSmith.Scripts.Character
         [HideInInspector] public Animator animator;
         
         [HideInInspector] public CharacterNetworkManager characterNetworkManager;
+        [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
+        [HideInInspector] public CharacterCombatManager characterCombatManager;
 
         
         [Header("Flags")] 
@@ -19,6 +21,11 @@ namespace MadSmith.Scripts.Character
         public bool canMove = false;
         public bool canRotate = false;
         
+        [Header("Character Stats")]
+        [SyncVar] public bool isDead;
+        [SyncVar(hook = nameof(HandleHealthChange))] public int currentHealth;
+        [SyncVar] public int maxHealth = 2;
+        
         private static readonly int IsGroundedAnimation = Animator.StringToHash("IsGrounded");
 
         protected virtual void Awake()
@@ -26,13 +33,18 @@ namespace MadSmith.Scripts.Character
             characterController = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
+            characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+            characterCombatManager = GetComponent<CharacterCombatManager>();
             characterController.enabled = false;
         }
-
+        protected virtual void Init()
+        {
+            currentHealth = maxHealth;
+            isDead = false;
+        }
+        
         protected virtual void Update()
         {
-            
-            // animator.SetBool(IsGroundedAnimation, isGrounded);
             if (isOwned)
             {
                 characterNetworkManager.networkPosition = transform.position;
@@ -52,9 +64,44 @@ namespace MadSmith.Scripts.Character
                     characterNetworkManager.networkRotationSmoothTime);
             }
         }
-
         protected virtual void FixedUpdate()
         {
+        }
+        protected virtual void HandleHealthChange(int oldState, int newState)
+        {
+            if (newState <= 0 && !isDead)
+            {
+                RpcProcessDeath();
+                Invoke(nameof(InvokeRevive), 5);
+            }
+
+            if (newState > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+        }
+        private void InvokeRevive()
+        {
+            RpcRevive();
+        }
+        
+        [ClientRpc]
+        public virtual void RpcProcessDeath()
+        {
+            if (!isOwned) return;
+            currentHealth = 0;
+            isDead = true;
+            characterAnimatorManager.PlayTargetActionAnimation("Death", true);
+        }
+        
+        [ClientRpc]
+        public virtual void RpcRevive()
+        {
+            if (!isOwned) return;
+            
+            currentHealth = maxHealth;
+            isDead = false; 
+            characterAnimatorManager.PlayTargetActionAnimation("Empty", false);
         }
     }
 }

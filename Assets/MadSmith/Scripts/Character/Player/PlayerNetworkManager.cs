@@ -7,22 +7,33 @@ namespace MadSmith.Scripts.Character.Player
 {
     public class PlayerNetworkManager : CharacterNetworkManager
     {
-        
         private PlayerManager _playerManager;
         [Header("Inventory")]
         [SyncVar] public GameObject myItem;
-        // [SyncVar] public Interactable CurrentInteractable;
 
         protected override void Awake()
         {
             base.Awake();
             _playerManager = GetComponent<PlayerManager>();
         }
+        
 
-        public void Init()
+        #region Mirror Events
+        
+        public override void OnStartAuthority()
         {
-            _playerManager.playerInteractionManager.UpdateMesh();
+            base.OnStartAuthority();
+            Debug.Log("Start authority manager");
+            // enabled = true;
+            _playerManager.playerLocomotionManager.enabled = true;
+            _playerManager.characterController.enabled = true; 
+            _playerManager.playerInputManager.enabled = true;
+            _playerManager.playerInteractionManager.enabled = true;
+            _playerManager.playerInputManager.InputReader.EnableGameplayInput();
+            _playerManager.settingsPanelState.OnEventRaised += _playerManager.SettingsPanelStateOnEventRaised;
         }
+        #endregion
+
         [Command]
         public void CmdAttemptPickupItem(GameObject itemGameObject)
         {
@@ -36,6 +47,7 @@ namespace MadSmith.Scripts.Character.Player
         [Command(requiresAuthority = false)]
         public void CmdAttemptPickupThrownItem(GameObject itemGameObject)
         {
+            if (_playerManager.isDead) return;
             if (itemGameObject == null) return;
             if (_playerManager.playerInventoryManager.IsHoldingItem()) return;
             if (!itemGameObject.TryGetComponent(out Item item) || !item.IsAvailable()) return;
@@ -80,6 +92,5 @@ namespace MadSmith.Scripts.Character.Player
             item.AddForce(10, transform.forward);
             RpcFakeDetachItem();
         }
-        
     }
 }
