@@ -14,14 +14,14 @@ namespace MadSmith.Scripts.Character
         [HideInInspector] public CharacterCombatManager characterCombatManager;
 
         
-        [Header("Flags")] 
+        [Header("Flags - Client")] 
         public bool isPerformingAction = false;
         public bool isGrounded = true;
         public bool applyRootMotion = false;
         public bool canMove = false;
         public bool canRotate = false;
         
-        [Header("Character Stats")]
+        [Header("Character Stats - Synced")]
         [SyncVar] public bool isDead;
         [SyncVar(hook = nameof(HandleHealthChange))] public int currentHealth;
         [SyncVar] public int maxHealth = 2;
@@ -69,11 +69,9 @@ namespace MadSmith.Scripts.Character
         }
         protected virtual void HandleHealthChange(int oldState, int newState)
         {
-            Debug.Log("New State"+ " " +newState);
             if (newState <= 0 && !isDead)
             {
                 RpcProcessDeath();
-                // currentHealth = 0;
                 Invoke(nameof(InvokeRevive), 5);
             }
 
@@ -90,10 +88,16 @@ namespace MadSmith.Scripts.Character
         [ClientRpc]
         public virtual void RpcProcessDeath()
         {
-            if (!isOwned) return;
-            currentHealth = 0;
-            isDead = true;
-            characterAnimatorManager.PlayTargetActionAnimation("Death", true);
+            if (isOwned)
+            {
+                characterAnimatorManager.PlayTargetActionAnimation("Death", true);
+            }
+
+            if (isServer)
+            {
+                currentHealth = 0;
+                isDead = true;
+            }
         }
         
         [ClientRpc]
