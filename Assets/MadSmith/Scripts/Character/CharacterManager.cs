@@ -69,9 +69,11 @@ namespace MadSmith.Scripts.Character
         }
         protected virtual void HandleHealthChange(int oldState, int newState)
         {
+            Debug.Log("New State"+ " " +newState);
             if (newState <= 0 && !isDead)
             {
                 RpcProcessDeath();
+                // currentHealth = 0;
                 Invoke(nameof(InvokeRevive), 5);
             }
 
@@ -97,11 +99,16 @@ namespace MadSmith.Scripts.Character
         [ClientRpc]
         public virtual void RpcRevive()
         {
-            if (!isOwned) return;
-            
-            currentHealth = maxHealth;
-            isDead = false; 
-            characterAnimatorManager.PlayTargetActionAnimation("Empty", false);
+            if (isOwned)
+            {
+                characterAnimatorManager.PlayTargetActionAnimation("Empty", false);
+            }
+
+            if (isServer)
+            {
+                currentHealth = maxHealth;
+                isDead = false;
+            }
         }
     }
 }

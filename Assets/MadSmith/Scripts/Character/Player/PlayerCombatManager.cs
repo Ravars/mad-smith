@@ -33,10 +33,10 @@ namespace MadSmith.Scripts.Character.Player
                 meleeAttackLayerMask);
             foreach (var hitCollider in hitColliders)
             {
-                Debug.Log("Collider: " + hitCollider.name);
+                // Debug.Log("Collider: " + hitCollider.name);
                 if (hitCollider.gameObject != gameObject)
                 {
-                    Debug.Log("hitCollider: " + hitCollider.name);
+                    // Debug.Log("hitCollider: " + hitCollider.name);
                     CmdApplyDamage(hitCollider.gameObject);
                 }
             }
