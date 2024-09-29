@@ -37,11 +37,36 @@ namespace MadSmith.Scripts.Character.Player
         [Command]
         public void CmdAttemptPickupItem(GameObject itemGameObject)
         {
-            if (itemGameObject == null) return;
+            if (itemGameObject == null) return; //TODO: tentar mudar para referenceEquals
             if (!itemGameObject.TryGetComponent(out Item item) || !item.IsAvailable()) return;
             
             item.SetAvailable(false);
             RpcFakeAttachItem(itemGameObject);
+        }
+
+        [Command]
+        public void CmdAttemptPlaceItem(Item item, Table tableRef)
+        {
+            Debug.Log("Attempt place cmd");
+            if (!tableRef.CanAddItem(item)) return;
+            
+            tableRef.AddItem(item);
+            item.SetPosition(tableRef.positionToItems.position);
+            item.SetRotation(Quaternion.identity);
+            item.SetAvailable(true);
+            
+            RpcFakeDetachItem();
+
+        }
+
+        [Command]
+        public void CmdAttemptPickupTableItem(Table tableRef)
+        {
+            if (tableRef == null) return;
+            if (!tableRef.HasItem()) return;
+            Item item = tableRef.GetLastItem();
+            item.SetAvailable(false);
+            RpcFakeAttachItem(item.gameObject);
         }
 
         [Command(requiresAuthority = false)]

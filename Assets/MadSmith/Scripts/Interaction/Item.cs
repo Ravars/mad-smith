@@ -74,6 +74,12 @@ namespace MadSmith.Scripts.Interaction
         {
             transform.rotation = newRotation;
         }
+
+        // [Server]
+        // public void SetRenderState(bool newState)
+        // {
+        //     itemMeshRender.enabled = newState;
+        // }
         private void OnIsAvailableChange(bool oldState, bool newState)
         {
             itemMeshRender.enabled = newState;
@@ -105,6 +111,12 @@ namespace MadSmith.Scripts.Interaction
                 if (_thrown && other.gameObject.CompareTag("Player"))
                 {
                     other.GetComponent<PlayerNetworkManager>().CmdAttemptPickupThrownItem(gameObject);
+                    SetThrown(false);
+                }
+                else if (_thrown && other.gameObject.CompareTag("Table"))
+                {
+                    Debug.Log("Table");
+                    other.GetComponent<Table>().CmdAttemptPickupThrownItem(gameObject);
                     SetThrown(false);
                 }
                 // else if(other.gameObject.CompareTag("Tables")){}

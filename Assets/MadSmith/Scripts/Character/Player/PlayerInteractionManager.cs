@@ -43,41 +43,65 @@ namespace MadSmith.Scripts.Character.Player
             //TODO: test this two lines
             if (_playerManager.isPerformingAction) return;
             if (!_playerManager.isGrounded) return;
-            
+
+            bool canGetAnotherItem = false;
+            bool wasHoldingItem = false;
             if (_playerManager.playerInventoryManager.IsHoldingItem())
             {
-                Debug.Log("Drop");
-                _playerManager.playerNetworkManager.CmdReleaseItem();
+                wasHoldingItem = true;
+                if (!ReferenceEquals(_lastTransformHit, null))
+                {
+                    if (_lastTransformHit.TryGetComponent<Table>(out Table table))
+                    {
+                        Debug.Log("Attempt place");
+                        _playerManager.playerNetworkManager.CmdAttemptPlaceItem(_playerManager.playerInventoryManager.GetItem(), table);
+                    }
+                    
+                }
+                else
+                {
+                    Debug.Log("Drop");
+                    _playerManager.playerNetworkManager.CmdReleaseItem();
+                    canGetAnotherItem = true;
+                }
+                
             }
             
-            if (_lastTransformHit != null)
+            if (_lastTransformHit != null && (canGetAnotherItem || !wasHoldingItem))
             {
                 Debug.Log("Grab else: " + _lastTransformHit.name);
-                _playerManager.playerNetworkManager.CmdAttemptPickupItem(_lastTransformHit);
+                if(_lastTransformHit.CompareTag("Item"))
+                { 
+                    _playerManager.playerNetworkManager.CmdAttemptPickupItem(_lastTransformHit);
+                }
+                else if (_lastTransformHit.CompareTag("Table") && _lastTransformHit.TryGetComponent<Table>(out Table table))
+                {
+                    _playerManager.playerNetworkManager.CmdAttemptPickupTableItem(table);
+                }
             }
         }
 
         
         
         #region Tests with SphereCast
-        public void HandleInteraction()
+        public void HandleHighlight()
         {
             if (Physics.SphereCast(transform.position, sphereCastRadius, transform.forward * range, out var hit, range, layerMask))
             {
                 if (_lastTransformHit != hit.transform.gameObject)
                 {
                     _lastTransformHit = hit.transform.gameObject;
-                    if (hit.transform.gameObject.TryGetComponent(out Item item))
+                    if (hit.transform.gameObject.TryGetComponent(out Interactable interactable))
                     {
-                        item.SetStateHighlight(true);
+                        interactable.SetStateHighlight(true);
                     }
                 }
             }
             else
             {
-                if (_lastTransformHit != null && _lastTransformHit.TryGetComponent(out Item item))
+                if (_lastTransformHit != null && _lastTransformHit.TryGetComponent(out Interactable interactable))
                 {
-                    item.SetStateHighlight(false);
+                    interactable.SetStateHighlight(false);
                 }
                 _lastTransformHit = null;
             }

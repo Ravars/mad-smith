@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MadSmith.Scripts.Interaction;
+using UnityEngine;
 
 namespace MadSmith.Scripts.Character.Player
 {
@@ -15,6 +16,11 @@ namespace MadSmith.Scripts.Character.Player
         public bool IsHoldingItem()
         {
             return _playerManager.playerNetworkManager.myItem != null;
+        }
+
+        public Item GetItem()
+        {
+            return _playerManager.playerNetworkManager.myItem.GetComponent<Item>();
         }
         
     }

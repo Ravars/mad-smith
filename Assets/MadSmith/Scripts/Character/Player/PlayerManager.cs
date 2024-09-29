@@ -72,7 +72,7 @@ namespace MadSmith.Scripts.Character.Player
         {
             base.FixedUpdate();
             if (!isOwned) return;
-            playerInteractionManager.HandleInteraction();
+            playerInteractionManager.HandleHighlight();
         }
         
     }
