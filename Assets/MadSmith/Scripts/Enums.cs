@@ -20,4 +20,25 @@
         DoubleHand,
         Table,
     }
+
+    public enum ItemSlotTableHolderCategory
+    {
+        Generic,
+        
+    }
+    public enum CraftingTableType
+    {
+        None,
+        Furnace,
+        Carpentry,
+        Sharpener,
+        AxeMold,
+        SwordMold,
+        Anvil,
+        Table,
+        Enchantment,
+        WorkingTable,
+        SpearMold,
+        Helmet,
+    }
 }

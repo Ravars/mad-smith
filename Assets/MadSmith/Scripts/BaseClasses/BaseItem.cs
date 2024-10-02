@@ -11,5 +11,16 @@ namespace MadSmith.Scripts.BaseClasses
         public Mesh mesh;
         public Material material;
         public Material materialHighlight;
+        public PositionRotationScaleItem[] positionRotationScaleItemForEachTable;
+
     }
+    [Serializable]
+    public struct PositionRotationScaleItem
+    {
+        public CraftingTableType craftingTableType;
+        public Vector3 scale;
+        public Vector3 offSet;
+        public Quaternion rotation;
+    }
+    
 }

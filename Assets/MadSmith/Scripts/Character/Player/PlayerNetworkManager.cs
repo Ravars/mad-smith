@@ -51,12 +51,10 @@ namespace MadSmith.Scripts.Character.Player
             if (!tableRef.CanAddItem(item)) return;
             
             tableRef.AddItem(item);
-            item.SetPosition(tableRef.positionToItems.position);
-            item.SetRotation(Quaternion.identity);
-            item.SetAvailable(true);
-            
+            // item.SetPosition(tableRef.positionToItems[0].position);
+            // item.SetRotation(Quaternion.identity);
+            // item.SetAvailable(true);
             RpcFakeDetachItem();
-
         }
 
         [Command]

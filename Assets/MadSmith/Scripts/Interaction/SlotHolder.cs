@@ -15,5 +15,17 @@ namespace MadSmith.Scripts.Interaction
             meshRenderer = GetComponent<MeshRenderer>();
             meshFilter = GetComponent<MeshFilter>();
         }
+
+        public void SetMesh(Material newMaterial, Mesh newMesh)
+        {
+            meshFilter.mesh = newMesh;
+            meshRenderer.material = newMaterial;
+        }
+
+        public void RemoveMesh()
+        {
+            meshFilter.mesh = null;
+            meshRenderer.material = null;
+        }
     }
 }

@@ -72,10 +72,12 @@ namespace MadSmith.Scripts.Character.Player
                 Debug.Log("Grab else: " + _lastTransformHit.name);
                 if(_lastTransformHit.CompareTag("Item"))
                 { 
+                    Debug.Log("item");
                     _playerManager.playerNetworkManager.CmdAttemptPickupItem(_lastTransformHit);
                 }
                 else if (_lastTransformHit.CompareTag("Table") && _lastTransformHit.TryGetComponent<Table>(out Table table))
                 {
+                    Debug.Log("Table");
                     _playerManager.playerNetworkManager.CmdAttemptPickupTableItem(table);
                 }
             }
