@@ -47,7 +47,7 @@ jobs:
 
       # Remove unnecessary files
       - name: Remove Burst Debug Information
-        run: rm -rf build/StandaloneWindows64_BurstDebugInformation_DoNotShip
+        run: rm -rf build/StandaloneWindows64/StandaloneWindows64_BurstDebugInformation_DoNotShip
       
       # List files after removal
       - name: List files after removal
