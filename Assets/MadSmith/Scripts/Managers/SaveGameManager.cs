@@ -3,7 +3,10 @@ using _Developers.Vitor.Couch;
 using IngameDebugConsole;
 using MadSmith.Scripts.GameSaving;
 using MadSmith.Scripts.Utils;
+
+#if UNITY_EDITOR
 using ParrelSync;
+#endif
 using UnityEngine;
 using Utils;
 

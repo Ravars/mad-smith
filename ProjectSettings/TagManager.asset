@@ -7,6 +7,7 @@ TagManager:
   - Environment
   - Item
   - Table
+  - Dispenser
   layers:
   - Default
   - TransparentFX

@@ -5,10 +5,11 @@ using MadSmith.Scripts.Interaction;
 using MadSmith.Scripts.Utils;
 using Mirror;
 using UnityEngine;
+using Utils;
 
 namespace MadSmith.Scripts.Managers
 {
-    public class RecipesManager : Singleton<RecipesManager>
+    public class RecipesManager : PersistentSingleton<RecipesManager>
     {
         public Recipe[] recipes;
         

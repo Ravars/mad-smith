@@ -10,7 +10,6 @@ namespace MadSmith.Scripts.Interaction
     public class Table : Interactable
     {
         private readonly SyncList<Item> _items = new();
-        public Transform[] positionToItems;
         public SlotHolder[] slotHolders;
         public CraftingTableType tableType;
         public override void OnStartClient()
@@ -23,7 +22,6 @@ namespace MadSmith.Scripts.Interaction
             switch (op)
             {
                 case SyncList<Item>.Operation.OP_ADD:
-                    Debug.Log("Item added:" + itemindex);
                     slotHolders[itemindex].SetMesh(newitem.baseItem.material, newitem.baseItem.mesh);
                     break;
                 case SyncList<Item>.Operation.OP_CLEAR:
@@ -31,7 +29,6 @@ namespace MadSmith.Scripts.Interaction
                 case SyncList<Item>.Operation.OP_INSERT:
                     break;
                 case SyncList<Item>.Operation.OP_REMOVEAT:
-                    Debug.Log("Item removed:" + itemindex);
                     slotHolders[itemindex].RemoveMesh();
                     break;
                 case SyncList<Item>.Operation.OP_SET:
@@ -67,7 +64,6 @@ namespace MadSmith.Scripts.Interaction
         {
             if (_items.Any(item => item.baseItem.itemName == newItem.baseItem.itemName)) return false;
             bool thereAreRecipesWithItems =  RecipesManager.Instance.ThereAreRecipesWithItems(new List<Item>(_items) { newItem }, tableType);
-            Debug.Log("thereAreRecipesWithItems: " + thereAreRecipesWithItems);
             return thereAreRecipesWithItems;
         }
 

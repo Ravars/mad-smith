@@ -14,10 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MadSmith/Scenes/Lobby.unity
     guid: e9fc6a575a7542741af0f8608d47395a
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Developers/Vitor/New Scene.unity
     guid: e58aca7848ba9924da54f82096bcae47
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Developers/Vitor/Interactable/Interaction.unity
     guid: d6f53b7c0b619dd4a92822d3fd24ce16
   m_configObjects: {}

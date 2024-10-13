@@ -1975,11 +1975,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 4989908678010083580, guid: fda6236f2c5206848b8c2baa6521d8db,
-        type: 3}
-      propertyPath: m_TagString
-      value: Item
-      objectReference: {fileID: 0}
     - target: {fileID: 6111904682723800925, guid: fda6236f2c5206848b8c2baa6521d8db,
         type: 3}
       propertyPath: baseItem

@@ -35,7 +35,7 @@ namespace MadSmith.Scripts.BaseClasses.Editor
             {
                 if (selectedBaseItem != null)
                 {
-                    AtualizarItem(item, selectedBaseItem);
+                    UpdateBaseItemEditor(item, selectedBaseItem);
                 }
             }
             EditorGUILayout.LabelField("Rotate around all items", EditorStyles.boldLabel);
@@ -49,14 +49,14 @@ namespace MadSmith.Scripts.BaseClasses.Editor
                 if (GUILayout.Button("Anterior"))
                 {
                     currentIndex = (currentIndex - 1 + allBaseItems.Count) % allBaseItems.Count;
-                    AtualizarItem(item,allBaseItems[currentIndex]);
+                    UpdateBaseItemEditor(item,allBaseItems[currentIndex]);
                 }
 
                 // Botão para o próximo item
                 if (GUILayout.Button("Próximo"))
                 {
                     currentIndex = (currentIndex + 1) % allBaseItems.Count;
-                    AtualizarItem(item,allBaseItems[currentIndex]);
+                    UpdateBaseItemEditor(item,allBaseItems[currentIndex]);
                 }
             }
             else
@@ -65,15 +65,13 @@ namespace MadSmith.Scripts.BaseClasses.Editor
             }
         }
 
-        private void AtualizarItem(Item item, BaseItem baseItem)
+        private void UpdateBaseItemEditor(Item item, BaseItem baseItem)
         {
-            var itemBaseItem = baseItem;
-
-            item.baseItem = itemBaseItem;
-            item.itemMeshFilter.mesh = itemBaseItem.mesh;
-            item.highlightObjects[0].originalMaterial = itemBaseItem.material;
-            item.highlightObjects[0].highlightMaterial = itemBaseItem.materialHighlight;
-            item.itemMeshRender.SetMaterials(new List<Material>(){itemBaseItem.material});
+            item.baseItem = baseItem;
+            item.itemMeshFilter.mesh = baseItem.mesh;
+            item.highlightObjects[0].originalMaterial = baseItem.material;
+            item.highlightObjects[0].highlightMaterial = baseItem.materialHighlight;
+            item.itemMeshRender.SetMaterials(new List<Material>(){baseItem.material});
             EditorUtility.SetDirty(item);
         }
     }

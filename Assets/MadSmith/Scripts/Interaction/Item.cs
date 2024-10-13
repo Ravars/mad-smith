@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Developers.Vitor.Interactable;
 using MadSmith.Scripts.BaseClasses;
 using MadSmith.Scripts.Character.Player;
 using UnityEngine;
 using Mirror;
+using UnityEditor;
 
 
 namespace MadSmith.Scripts.Interaction
@@ -125,6 +127,16 @@ namespace MadSmith.Scripts.Interaction
                 }
                 
             }
+        }
+        
+        [Server]
+        public void UpdateBaseItem(BaseItem newBaseItem)
+        {
+            baseItem = newBaseItem;
+            itemMeshFilter.mesh = baseItem.mesh;
+            highlightObjects[0].originalMaterial = baseItem.material;
+            highlightObjects[0].highlightMaterial = baseItem.materialHighlight;
+            itemMeshRender.SetMaterials(new List<Material>(){baseItem.material});
         }
     }
 }
