@@ -40,11 +40,18 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneWindows64
+      
+      # List files before removal
+      - name: List files before removal
+        run: ls -R build
 
       # Remove unnecessary files
       - name: Remove Burst Debug Information
         run: rm -rf build/StandaloneWindows64_BurstDebugInformation_DoNotShip
-        
+      
+      # List files after removal
+      - name: List files after removal
+        run: ls -R build
       # Output
       - uses: actions/upload-artifact@v3
         with:
