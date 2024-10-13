@@ -80,6 +80,10 @@ namespace MadSmith.Scripts.Character.Player
                     Debug.Log("Table");
                     _playerManager.playerNetworkManager.CmdAttemptPickupTableItem(table);
                 }
+                else if (_lastTransformHit.CompareTag("Dispenser") && _lastTransformHit.TryGetComponent(out Dispenser dispenser))
+                {
+                    
+                }
             }
         }
 

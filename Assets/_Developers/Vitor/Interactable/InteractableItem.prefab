@@ -105,10 +105,11 @@ MonoBehaviour:
   - meshRenderer: {fileID: 4438311941134297072}
     originalMaterial: {fileID: 2100000, guid: c06f573d62991074e98a3dd872a86e2b, type: 2}
     highlightMaterial: {fileID: 2100000, guid: 69b5038a2a311834fa0c738abde9fa1f, type: 2}
-  baseItem: {fileID: 11400000, guid: 03d972c70032d2445957601002004141, type: 2}
+  baseItem: {fileID: 0}
   triggerOnGround: {fileID: 8744698358255597308}
   itemMeshFilter: {fileID: 184132110723135404}
   itemMeshRender: {fileID: 4438311941134297072}
+  thrownDuration: 1
 --- !u!114 &1539586711192344809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,7 +203,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5796362863425736302}
-  m_Mesh: {fileID: -8918972964667141905, guid: 6df0de35f36c9244ea520bdd1d8f11a5, type: 3}
+  m_Mesh: {fileID: 0}
 --- !u!23 &4438311941134297072
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -222,8 +223,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c06f573d62991074e98a3dd872a86e2b, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

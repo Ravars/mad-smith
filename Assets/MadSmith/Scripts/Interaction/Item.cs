@@ -17,8 +17,8 @@ namespace MadSmith.Scripts.Interaction
         [Header("Item config")]
         public BaseItem baseItem;
         [SerializeField] private SphereCollider triggerOnGround;
-        // [SerializeField] private MeshFilter itemMeshFilter;
-        [SerializeField] private MeshRenderer itemMeshRender;
+        [SerializeField] public MeshFilter itemMeshFilter;
+        [SerializeField] public MeshRenderer itemMeshRender;
         
         [SyncVar(hook = nameof(OnIsAvailableChange))]
         private bool _isAvailable = true;

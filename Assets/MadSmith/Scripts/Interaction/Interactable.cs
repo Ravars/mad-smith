@@ -9,7 +9,7 @@ namespace MadSmith.Scripts.Interaction
         [HideInInspector] public bool showEditorButtons = true;
 
         [Header("Highlight properties")] 
-        [SerializeField] private HighlightObject[] highlightObjects;
+        [SerializeField] public HighlightObject[] highlightObjects;
         private bool _currentHighlightState;
 
         public virtual void Awake()

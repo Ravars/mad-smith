@@ -65,6 +65,7 @@ namespace MadSmith.Scripts.Interaction
         [Server]
         public bool CanAddItem(Item newItem)
         {
+            if (_items.Any(item => item.baseItem.itemName == newItem.baseItem.itemName)) return false;
             bool thereAreRecipesWithItems =  RecipesManager.Instance.ThereAreRecipesWithItems(new List<Item>(_items) { newItem }, tableType);
             Debug.Log("thereAreRecipesWithItems: " + thereAreRecipesWithItems);
             return thereAreRecipesWithItems;

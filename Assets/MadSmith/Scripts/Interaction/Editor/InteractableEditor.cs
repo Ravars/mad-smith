@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using MadSmith.Scripts.BaseClasses;
+using UnityEditor;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Interaction.Editor
@@ -6,6 +7,7 @@ namespace MadSmith.Scripts.Interaction.Editor
     [CustomEditor(typeof(Interactable), true)]
     public class InteractableEditor : UnityEditor.Editor
     {
+        private BaseItem selectedBaseItem;
         public override void OnInspectorGUI()
         {
             Interactable materialSwitcher = (Interactable)target;
