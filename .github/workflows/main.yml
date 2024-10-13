@@ -41,6 +41,10 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
 
+      # Remove unnecessary files
+      - name: Remove Burst Debug Information
+        run: rm -rf build/StandaloneWindows64_BurstDebugInformation_DoNotShip
+        
       # Output
       - uses: actions/upload-artifact@v3
         with:
