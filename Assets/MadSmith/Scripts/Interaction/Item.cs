@@ -11,22 +11,21 @@ namespace MadSmith.Scripts.Interaction
     [DisallowMultipleComponent]
     public class Item : Interactable
     {
+        private Rigidbody _rb;
+        private float _thrownTimer;
+        
         [Header("Item config")]
         public BaseItem baseItem;
         [SerializeField] private SphereCollider triggerOnGround;
-        private Rigidbody _rb;
-
-        [SerializeField] private MeshFilter itemMeshFilter;
+        // [SerializeField] private MeshFilter itemMeshFilter;
         [SerializeField] private MeshRenderer itemMeshRender;
         
         [SyncVar(hook = nameof(OnIsAvailableChange))]
         private bool _isAvailable = true;
 
-        [SyncVar] 
-        private bool _thrown = false;
+        [SyncVar] private bool _thrown = false;
 
         [SerializeField] private float thrownDuration = 1.0f;
-        private float _thrownTimer;
         public override void Awake()
         {
             base.Awake();

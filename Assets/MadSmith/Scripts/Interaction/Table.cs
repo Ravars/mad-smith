@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using MadSmith.Scripts.Managers;
 using Mirror;
 using UnityEngine;
 
@@ -7,12 +9,13 @@ namespace MadSmith.Scripts.Interaction
 {
     public class Table : Interactable
     {
-        public readonly SyncList<Item> items = new SyncList<Item>();
+        private readonly SyncList<Item> _items = new();
         public Transform[] positionToItems;
         public SlotHolder[] slotHolders;
+        public CraftingTableType tableType;
         public override void OnStartClient()
         {
-            items.Callback += ItemsOnCallback;
+            _items.Callback += ItemsOnCallback;
         }
 
         private void ItemsOnCallback(SyncList<Item>.Operation op, int itemindex, Item olditem, Item newitem)
@@ -42,28 +45,29 @@ namespace MadSmith.Scripts.Interaction
         public void AddItem(Item item)
         {
             item.SetAvailable(false);
-            items.Add(item);
+            _items.Add(item);
         }
 
         [Server]
         public bool HasItem()
         {
-            // return items.Any(x => x.IsAvailable());
-            return items.Count > 0;
+            return _items.Count > 0;
         }
 
         [Server]
         public Item GetLastItem()
         {
-            Item item = items[^1];
-            items.Remove(item);
+            Item item = _items[^1];
+            _items.Remove(item);
             return item;
         }
 
         [Server]
         public bool CanAddItem(Item newItem)
         {
-            return true;
+            bool thereAreRecipesWithItems =  RecipesManager.Instance.ThereAreRecipesWithItems(new List<Item>(_items) { newItem }, tableType);
+            Debug.Log("thereAreRecipesWithItems: " + thereAreRecipesWithItems);
+            return thereAreRecipesWithItems;
         }
 
         [Command(requiresAuthority = false)]
@@ -74,17 +78,6 @@ namespace MadSmith.Scripts.Interaction
             if (!CanAddItem(item)) return;
             
             AddItem(item);
-            // item.SetPosition(positionToItems[0].position);
-            // item.SetRotation(Quaternion.identity);
-            // item.SetAvailable(true);
-        }
-        
-        // private SlotHolder
-        
-        //TODO: Maybe add a "playerInteractionManager.UpdateMesh"-like 
-        private void UpdateMeshes()
-        {
-            
         }
     }
 }
