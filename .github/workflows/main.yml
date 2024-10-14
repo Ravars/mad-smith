@@ -40,16 +40,8 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneWindows64
-      
-      # Change permissions to allow deletion
-      - name: Change permissions
-        run: chmod -R +w build/StandaloneWindows64/StandaloneWindows64_BurstDebugInformation_DoNotShip
-      # Remove unnecessary files
-      - name: Remove Burst Debug Information
-        run: rm -rf build/StandaloneWindows64/StandaloneWindows64_BurstDebugInformation_DoNotShip
-      
       # Output
       - uses: actions/upload-artifact@v3
         with:
           name: Build
-          path: build
+          path: build | !build/StandaloneWindows64/StandaloneWindows64_BurstDebugInformation_DoNotShip
