@@ -44,4 +44,6 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Build
-          path: build | !build/StandaloneWindows64/StandaloneWindows64_BurstDebugInformation_DoNotShip
+          path: |
+            build
+            !build/StandaloneWindows64/StandaloneWindows64_BurstDebugInformation_DoNotShip
