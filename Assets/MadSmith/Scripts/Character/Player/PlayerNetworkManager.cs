@@ -67,6 +67,15 @@ namespace MadSmith.Scripts.Character.Player
             RpcFakeAttachItem(item.gameObject);
         }
 
+        [Command]
+        public void CmdAttemptPickupDispenserItem(Dispenser dispenserRef)
+        {
+            if (dispenserRef == null) return;
+            Item item = dispenserRef.SpawnItem();
+            item.SetAvailable(false);
+            RpcFakeAttachItem(item.gameObject);
+        }
+
         [Command(requiresAuthority = false)]
         public void CmdAttemptPickupThrownItem(GameObject itemGameObject)
         {

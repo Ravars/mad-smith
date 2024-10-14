@@ -690,8 +690,31 @@ PrefabInstance:
     - target: {fileID: 5639958571426933579, guid: d02bd6d4bbe56074888b777bd7800d9b,
         type: 3}
       propertyPath: onlineScene
-      value: Assets/MadSmith/Scenes/Lobby.unity
+      value: Assets/_Developers/Vitor/Interactable/Interaction.unity
       objectReference: {fileID: 0}
+    - target: {fileID: 5639958571426933579, guid: d02bd6d4bbe56074888b777bd7800d9b,
+        type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639958571426933579, guid: d02bd6d4bbe56074888b777bd7800d9b,
+        type: 3}
+      propertyPath: spawnPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 4989908678010083580, guid: fda6236f2c5206848b8c2baa6521d8db,
+        type: 3}
+    - target: {fileID: 5639958571426933579, guid: d02bd6d4bbe56074888b777bd7800d9b,
+        type: 3}
+      propertyPath: spawnPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 1391172286354730006, guid: b03e851a6cd93784ba7f91fc54d14269,
+        type: 3}
+    - target: {fileID: 5639958571426933579, guid: d02bd6d4bbe56074888b777bd7800d9b,
+        type: 3}
+      propertyPath: spawnPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 6622486696390316375, guid: d2e46d145eb948b4fa93f2ae281c270a,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -755,11 +778,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2068147588411552574, guid: 35b2e6e33194f554f8470bfa2005c678,
+        type: 3}
+      propertyPath: sceneId
+      value: 2711892848
+      objectReference: {fileID: 0}
+    - target: {fileID: 2068147588411552574, guid: 35b2e6e33194f554f8470bfa2005c678,
+        type: 3}
+      propertyPath: serverOnly
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5960483738869404155, guid: 35b2e6e33194f554f8470bfa2005c678,
         type: 3}
       propertyPath: m_Name
       value: RecipesManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8101870376040637841, guid: 35b2e6e33194f554f8470bfa2005c678,
+        type: 3}
+      propertyPath: baseItems.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8101870376040637841, guid: 35b2e6e33194f554f8470bfa2005c678,
+        type: 3}
+      propertyPath: baseItems.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 87c0788b9b2db6f439981a52523121ec,
+        type: 2}
+    - target: {fileID: 8101870376040637841, guid: 35b2e6e33194f554f8470bfa2005c678,
+        type: 3}
+      propertyPath: baseItems.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 03d972c70032d2445957601002004141,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

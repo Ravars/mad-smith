@@ -1,4 +1,5 @@
-﻿using MadSmith.Scripts.Interaction;
+﻿using MadSmith.Scripts.BaseClasses;
+using MadSmith.Scripts.Interaction;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,6 +17,16 @@ namespace MadSmith.Scripts.Managers.Editor
             {
                 GetAllRecipes(recipesManager);
             }
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Get all items"))
+            {
+                GetAllItems(recipesManager);
+            }
+            if (GUILayout.Button("Update items IDs"))
+            {
+                UpdateIds(recipesManager);
+            }
+            GUILayout.EndHorizontal();
         }
 
         private void GetAllRecipes(RecipesManager recipesManager)
@@ -23,6 +34,20 @@ namespace MadSmith.Scripts.Managers.Editor
             Recipe[] allRecipe = Resources.FindObjectsOfTypeAll<Recipe>();
             recipesManager.recipes = allRecipe;
             EditorUtility.SetDirty(recipesManager);
+        }
+        private void GetAllItems(RecipesManager recipesManager)
+        {
+            BaseItem[] allRecipe = Resources.FindObjectsOfTypeAll<BaseItem>();
+            recipesManager.baseItems = allRecipe;
+            EditorUtility.SetDirty(recipesManager);
+        }
+
+        private void UpdateIds(RecipesManager recipesManager)
+        {
+            for (int i = 0; i < recipesManager.baseItems.Length; i++)
+            {
+                recipesManager.baseItems[i].id = i+1;
+            }
         }
     }
 }

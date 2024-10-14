@@ -9,9 +9,10 @@ using Utils;
 
 namespace MadSmith.Scripts.Managers
 {
-    public class RecipesManager : PersistentSingleton<RecipesManager>
+    public class RecipesManager : NetworkPersistentSingleton<RecipesManager>
     {
         public Recipe[] recipes;
+        public BaseItem[] baseItems;
         
         [Server]
         public bool ThereAreRecipesWithItems(List<Item> inputItems, CraftingTableType craftingTableType)
