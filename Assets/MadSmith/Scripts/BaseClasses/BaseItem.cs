@@ -6,6 +6,7 @@ namespace MadSmith.Scripts.BaseClasses
     [CreateAssetMenu(fileName = "newItem", menuName = "Game/Item", order = 0)]
     public class BaseItem : ScriptableObject
     {
+        [HideInInspector] public int id;
         public string itemName;
         public Sprite itemImage;
         public Mesh mesh;

@@ -82,7 +82,7 @@ namespace MadSmith.Scripts.Character.Player
                 }
                 else if (_lastTransformHit.CompareTag("Dispenser") && _lastTransformHit.TryGetComponent(out Dispenser dispenser))
                 {
-                    
+                    _playerManager.playerNetworkManager.CmdAttemptPickupDispenserItem(dispenser);
                 }
             }
         }

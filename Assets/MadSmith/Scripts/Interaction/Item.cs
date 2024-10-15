@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Developers.Vitor.Interactable;
 using MadSmith.Scripts.BaseClasses;
 using MadSmith.Scripts.Character.Player;
+using MadSmith.Scripts.Managers;
 using UnityEngine;
 using Mirror;
 using UnityEditor;
@@ -15,8 +16,11 @@ namespace MadSmith.Scripts.Interaction
     {
         private Rigidbody _rb;
         private float _thrownTimer;
+
+        [Header("Item config")] 
+        // [SyncVar(hook = nameof(OnBaseItemIdChange))]
+        [SyncVar] public int baseItemId;
         
-        [Header("Item config")]
         public BaseItem baseItem;
         [SerializeField] private SphereCollider triggerOnGround;
         [SerializeField] public MeshFilter itemMeshFilter;
@@ -75,12 +79,7 @@ namespace MadSmith.Scripts.Interaction
         {
             transform.rotation = newRotation;
         }
-
-        // [Server]
-        // public void SetRenderState(bool newState)
-        // {
-        //     itemMeshRender.enabled = newState;
-        // }
+        
         private void OnIsAvailableChange(bool oldState, bool newState)
         {
             itemMeshRender.enabled = newState;
@@ -120,7 +119,6 @@ namespace MadSmith.Scripts.Interaction
                     other.GetComponent<Table>().CmdAttemptPickupThrownItem(gameObject);
                     SetThrown(false);
                 }
-                // else if(other.gameObject.CompareTag("Tables")){}
                 else if (other.gameObject.CompareTag("Environment"))
                 {
                     SetThrown(false);
@@ -129,14 +127,5 @@ namespace MadSmith.Scripts.Interaction
             }
         }
         
-        [Server]
-        public void UpdateBaseItem(BaseItem newBaseItem)
-        {
-            baseItem = newBaseItem;
-            itemMeshFilter.mesh = baseItem.mesh;
-            highlightObjects[0].originalMaterial = baseItem.material;
-            highlightObjects[0].highlightMaterial = baseItem.materialHighlight;
-            itemMeshRender.SetMaterials(new List<Material>(){baseItem.material});
-        }
     }
 }

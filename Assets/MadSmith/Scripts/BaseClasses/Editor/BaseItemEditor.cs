@@ -12,12 +12,16 @@ namespace MadSmith.Scripts.BaseClasses.Editor
         private BaseItem selectedBaseItem;
         private List<BaseItem> allBaseItems;
         private int currentIndex = 0;
-        private void OnEnable()
-        {
-            Debug.Log("On enable");
-            allBaseItems = new List<BaseItem>(Resources.FindObjectsOfTypeAll<BaseItem>());
-
-        }
+        // private void OnEnable()
+        // {
+        //     Debug.Log("On enable");
+        //     allBaseItems = new List<BaseItem>(Resources.FindObjectsOfTypeAll<BaseItem>());
+        //
+        // }
+        //
+        // private void OnValidate()
+        // {
+        // }
 
         public override void OnInspectorGUI()
         {
@@ -31,38 +35,38 @@ namespace MadSmith.Scripts.BaseClasses.Editor
             EditorGUILayout.LabelField("Select Item Manually", EditorStyles.boldLabel);
             selectedBaseItem = (BaseItem)EditorGUILayout.ObjectField("Select BaseItem", selectedBaseItem, typeof(BaseItem), false);
 
-            if (GUILayout.Button("Preencher do BaseItem"))
+            if (GUILayout.Button("Set new baseItem"))
             {
                 if (selectedBaseItem != null)
                 {
                     UpdateBaseItemEditor(item, selectedBaseItem);
                 }
             }
-            EditorGUILayout.LabelField("Rotate around all items", EditorStyles.boldLabel);
-
-            if (allBaseItems.Count > 0)
-            {
-                // Exibe o nome do BaseItem atual
-                EditorGUILayout.LabelField("BaseItem Atual:", allBaseItems[currentIndex].name);
-
-                // Botão para o item anterior
-                if (GUILayout.Button("Anterior"))
-                {
-                    currentIndex = (currentIndex - 1 + allBaseItems.Count) % allBaseItems.Count;
-                    UpdateBaseItemEditor(item,allBaseItems[currentIndex]);
-                }
-
-                // Botão para o próximo item
-                if (GUILayout.Button("Próximo"))
-                {
-                    currentIndex = (currentIndex + 1) % allBaseItems.Count;
-                    UpdateBaseItemEditor(item,allBaseItems[currentIndex]);
-                }
-            }
-            else
-            {
-                EditorGUILayout.LabelField("Nenhum BaseItem encontrado no projeto.");
-            }
+            // EditorGUILayout.LabelField("Rotate around all items", EditorStyles.boldLabel);
+            //
+            // if (allBaseItems.Count > 0)
+            // {
+            //     // Exibe o nome do BaseItem atual
+            //     EditorGUILayout.LabelField("BaseItem Atual:", allBaseItems[currentIndex].name);
+            //
+            //     // Botão para o item anterior
+            //     if (GUILayout.Button("Anterior"))
+            //     {
+            //         currentIndex = (currentIndex - 1 + allBaseItems.Count) % allBaseItems.Count;
+            //         UpdateBaseItemEditor(item,allBaseItems[currentIndex]);
+            //     }
+            //
+            //     // Botão para o próximo item
+            //     if (GUILayout.Button("Próximo"))
+            //     {
+            //         currentIndex = (currentIndex + 1) % allBaseItems.Count;
+            //         UpdateBaseItemEditor(item,allBaseItems[currentIndex]);
+            //     }
+            // }
+            // else
+            // {
+            //     EditorGUILayout.LabelField("Nenhum BaseItem encontrado no projeto.");
+            // }
         }
 
         private void UpdateBaseItemEditor(Item item, BaseItem baseItem)
